@@ -1,0 +1,108 @@
+\name{ML.RatePhylo}
+\alias{ML.RatePhylo}
+\title{
+Maximum likelihood rate estimation for traits and phylogenies
+}
+\description{
+Full function for maximum likelihood estimation of rate parameters and comparison to a single rate 
+model.}
+\usage{
+ML.RatePhylo(rateData, rate = NULL, fixed = NULL, pretty = TRUE, rateMIN = 0.001, rateMAX = 50, 
+common.mean = FALSE)
+}
+\arguments{
+  \item{rateData}{
+an object of class "rateData"}
+  \item{rate}{
+a vector of relative rate parameters. The length of the vector is equal to the number of rates 
+being estimated. If \code{rate=NULL} then rates are equal.}
+  \item{fixed}{
+A vector stating whether each parameter should be allowed to vary (either \code{FALSE} which 
+results in a start value of 1, or a numeric start value) or should be fixed (\code{TRUE}).}
+  \item{pretty}{
+Display the output nicely (\code{pretty=TRUE}) or as a list (\code{pretty=FALSE})}
+  \item{rateMIN}{
+Minimum value for the rate parameters}
+  \item{rateMAX}{
+Maximum value for the rate parameters}
+  \item{common.mean}{
+a logical specififying whether each rate category should have its own mean (\code{common.mean=FALSE})
+or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) 
+for a discussion on the impact of assumptions about mean on rate estimates.  }
+}
+\details{
+}
+\value{
+If \code{pretty=FALSE}, returns a list containing:
+\item{MLRate }{Maximum likelihood estimates of the rate parameters}
+\item{LCI }{Approximate lower confidence intervals for rate}
+\item{UCI }{Approximate upper confidence intervals for rate parameters}
+\item{nParam }{Number of parameters in the model (how many means and rate categories)}
+\item{Max.lik }{Maximum (log) likeihood}
+\item{Lik1 }{Likelihood of the equivalent single rate model}
+\item{LR }{Likelihood ratio statistic of "Max.lik" vs "Lik1"}
+\item{P }{P values for the LR statistic}
+\item{df }{Degrees of freedom for the LR statistic}
+\item{AIC }{AIC for maximum likelihood model}
+\item{AICc }{AICc for maximum likelihood model}
+\item{AIC.rate1 }{AIC for single rate model}
+\item{AICc.rate1 }{AICc for single rate model}
+\item{means }{Means for each category}
+
+If \code{pretty=TRUE}, prints a nice version of the list to screen.
+
+
+}
+\references{
+Thomas GH, Freckleton RP, & Szekely T. 2006. Comparative analyses of the influence of developmental 
+mode on phenotypic diversification rates in shorebirds. Proceedings of the Royal Society B 273, 
+1619-1624.
+
+Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: novel environments
+and island effects. Evolution 63, 2017-2030.}
+\author{
+Gavin Thomas, Rob Freckleton}
+\note{
+Unlike phyloMean and likRatePhylo (that use treatment contrasts, the means reported here are the actual
+values}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+## Read in phylogeny and data from Thomas et al. (2009)
+data(anolis.tree)
+data(anolis.data)
+
+## Convert data to class rateData with a rateMatrix object as input
+anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+
+anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
+rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
+
+# A model with a different rate in each of the four groups. The 'fixed' command is used to determine
+# whether a particular rate is to be constrained or not. Use '1' to fix a group and 'FALSE' to show
+# that the parameter is not fixed and should be estimated. The values should be entered in the same 
+# order as the ranking of the groups. That is, group 0 (small islands) takes position one in the 
+# fixed vector, group 1 (large island trunk crown and trunk ground) takes position 2 and so on. 
+# The default is to allow each group to take a different mean. 
+
+ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,FALSE, FALSE), pretty=TRUE)
+
+
+# A different model, force small islands, large island other, and mainland to be 1 and only estimate
+# large island trunk crown and trunk ground 
+ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,1, 1), pretty=TRUE)
+
+
+# Run the same two models, but this time assuming a common mean across all four groups
+ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,FALSE, FALSE), pretty=TRUE, common.mean=TRUE)
+ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,1, 1), pretty=TRUE, common.mean=TRUE)
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
