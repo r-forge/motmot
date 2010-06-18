@@ -1,7 +1,7 @@
 \name{as.rateData}
 \alias{as.rateData}
 \title{
-Conversion among data and phylogeny objects.}
+Conversion among data and phylogeny objects}
 \description{
 Function to generate a "rateData" object containing the discrete explanatory variable, continuous 
 response variable and set of variance co-variance matrices. It loads the trait data and removes 

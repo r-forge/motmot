@@ -1,7 +1,7 @@
 \name{make.anc}
 \alias{make.anc}
 \title{
-Internal function
+Create design matrix (internal function)
 }
 \description{
 This is an internal function to generate the design matrix required to define different means for 
@@ -50,21 +50,7 @@ Gavin Thomas}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function(y, x, data=NULL, common.mean=FALSE) {
-	
-	if(is.factor(x) == "FALSE"){
-		stop("The discrete trait must be a factor")	
-	}
-	
-	m <- model.frame(y ~ x, data)
-	x <- model.matrix(y ~ x, m)
-	return(x)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

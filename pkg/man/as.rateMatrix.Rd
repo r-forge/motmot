@@ -1,7 +1,7 @@
 \name{as.rateMatrix}
 \alias{as.rateMatrix}
 \title{
-Conversion among data and phylogeny objects.
+Conversion among data and phylogeny objects
 }
 \description{
 Function to generate a "rateMatrix" object containing a set of variance covariance matrices. 

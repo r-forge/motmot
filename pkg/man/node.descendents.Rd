@@ -1,0 +1,49 @@
+\name{node.descendents}
+\alias{node.descendents}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Identify nodes and tips descended from a node (internal function).
+}
+\description{
+Obtains a vector of the tips and nodes subtending from a node in a phylogeny.}
+\usage{
+node.descendents(x, phy)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{x}{
+A positive integer 
+}
+  \item{phy}{
+An object of class "phylo" (see ape package).
+}
+
+}
+\details{
+This function is stolen from the clade.members function in the CAIC package but returns both node and tip id's.}
+\value{
+
+  \item{nodes }{A vector of node ids}
+
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+Gavin Thomas, David Orme}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

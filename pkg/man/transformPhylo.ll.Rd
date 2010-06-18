@@ -1,0 +1,121 @@
+\name{transformPhylo.ll}
+\alias{transformPhylo.ll}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Log-likelhood for models of trait evoluion. 
+}
+\description{
+Fits likelihood models for various models of continuous character evolution.}
+\usage{
+transformPhylo.ll(y, phy, model = NULL, kappa = NULL, lambda = NULL, delta = NULL, nodeIDs = NULL, branchRates=NULL, cladeRates = NULL)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{y}{
+A matrix of trait values.}
+  \item{phy}{
+An object of class "phylo" (see ape package).
+}
+  \item{model}{
+The model of trait evolution (see details).}
+  \item{kappa}{
+Value of kappa transform.}
+  \item{lambda}{
+Value of lambda transform.}
+  \item{delta}{
+Value of delta transform.}
+  \item{nodeIDs}{
+Integer - ancestral nodes of clades.}
+  \item{branchRates}{
+Numeric vector specifying relative rates for individual branches.}
+\item{cladeRates}{
+Numeric vector specifying relative rates for clades.}
+
+}
+\details{
+This function fits likelihood models (see below) for continuous character evolution where the parameter values are set a priori. The function returns the log-likihood and the Brownian variance (or variance covariance matrix).
+
+model="bm"- Brownian motion (constant rates random walk)
+
+model="kappa" - fits Pagel's kappa by raising all branch lengths to the power kappa. As kappa approaches zero, trait change becomes focused at branching events. For complete phylogenies, if kappa approaches zero this infers speciational trait change. 
+
+model="lambda" - fits Pagel's lambda to estimate phylogenetic signal by multiplying all internal branches of the tree by lambda, leaving tip branches as their original length (root to tip distances are unchanged);
+
+model="delta" - fits Pagel's delta by raising all node depths to the power delta. If delta <1, trait evolution is concentrated early in the tree whereas if delta >1 trait evolution is concentrated towards the tips. Values of delta above one can be difficult to fit reliably.
+
+model="free" - fits Mooer's et al's free model where each branch has its own rate of trait evolution. This can be a useful exploratory analysis but it is slow due to the number of parameters, particularly for large trees.
+
+model="clade" - fits a model where particular clades are a priori hypothesised to have different rates of trait evolution (see O'Meara et al. 2006; Thomas et al. 2006, 2009). Clades are specified using nodeIDs and are defined as the mrca node. Unique rates for each clade are specified using cladeRates. 
+
+
+}
+\value{
+  \item{brCov }{Brownian variance covariance matrix}
+  \item{logLikelihood }{The log-likelihood of the model and data}
+  
+
+
+}
+\references{
+
+Felsenstein J. 1973. Maximum-likelihood estimation of evolutionary trees from continuous characters. Am. J. Hum. Genet. 25, 471-492.
+
+Felsenstein J. 1985. Phylogenies and the comparative method. American Naturalist 125, 1-15.
+
+Freckleton RP & Jetz W. 2009. Space versus phylogeny: disentangling phylogenetic and spatial signals in comparative data. Proc. Roy. Soc. B 276, 21-30. 
+
+Mooers AO, Vamosi S, & Schluter D. 1999. Using phylogenies to test macroevolutionary models of trait evolution: sexual selection and speciation in Cranes (Gruinae). American Naturalist 154, 249-259.
+
+O'Meara BC, Ane C, Sanderson MJ & Wainwright PC. 2006. Testing for different rates of continuous trait evolution using likelihood. Evolution 60, 922-933
+
+Pagel M. 1997. Inferring evolutionary processes from phylogenies. Zoologica Scripta 26, 331-348.
+
+Pagel M. 1999 Inferring the historical patterns of biological evolution. Nature 401, 877-884.
+
+Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: novel environments and island effects. Evolution 63, 2017-2030.
+}
+\author{
+Gavin Thomas}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+# Data and phylogeny
+data(anolis.tree)
+data(anolis.data)
+
+# Resolve polytomies
+tree <- multi2di(anolis.tree)
+
+# anolis.data is not matrix and contains missing data so put together matrix of # relevant traits (here female and male snout vent lengths) and remove species 
+# with missing data from the matrix and phylogeny
+anolisSVL <- data.matrix(anolis.data)[,c(5,6)]
+anolisSVL[,1] <- log(anolisSVL[,1])
+anolisSVL[,2] <- log(anolisSVL[,2])
+
+tree <- drop.tip(tree, names(attr(na.omit(anolisSVL), "na.action")))
+anolisSVL <- na.omit(anolisSVL)
+
+# log likelihood of kappa = 0.1 or 1
+transformPhylo.ll(anolisSVL, phy=tree, model="kappa", kappa=0.1)
+transformPhylo.ll(anolisSVL, phy=tree, model="kappa", kappa=1)
+
+# log likelihood of lambda = 0.01 or 1
+transformPhylo.ll(anolisSVL, phy=tree, model="lambda", lambda=0.01)
+transformPhylo.ll(anolisSVL, phy=tree, model="lambda", lambda=1)
+
+# log likelihood of delta = 1.5 or 1
+transformPhylo.ll(anolisSVL, phy=tree, model="delta", delta=1.5)
+transformPhylo.ll(anolisSVL, phy=tree, model="delta", delta=1)
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

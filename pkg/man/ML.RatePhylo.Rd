@@ -63,7 +63,7 @@ and island effects. Evolution 63, 2017-2030.}
 \author{
 Gavin Thomas, Rob Freckleton}
 \note{
-Unlike phyloMean and likRatePhylo (that use treatment contrasts, the means reported here are the actual
+Unlike phyloMean and likRatePhylo (that use treatment contrasts), the means reported here are the actual
 values}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
