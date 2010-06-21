@@ -9,7 +9,7 @@ pic.motmot <- function (x, phy)
         stop("your tree has no branch lengths: you may consider setting them equal to one, or using the function `compute.brlen'.")
 	
 	var.contrasts <- TRUE
-	scaled <- TRUE
+	scaled <- FALSE
 	
     nb.tip <- length(phy$tip.label)
     nb.node <- phy$Nnode

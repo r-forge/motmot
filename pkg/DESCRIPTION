@@ -1,7 +1,7 @@
 Package: motmot
 Type: Package
 Title: Models of Trait Macroevolution on Trees
-Version: 0.2-1
+Version: 0.2-2
 Imports: ape, mvtnorm, MASS, CAIC
 Depends: ape, mvtnorm, MASS, CAIC
 Date: 2010-06-10
