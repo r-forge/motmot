@@ -13,14 +13,13 @@ fairProportions(phy)
   \item{phy}{
 An object of class "phylo" (see ape package).
 }
+\item{nodeCount}{Logical - should root to tip node counts be returned (default is FALSE)}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-
- \item{fpTips }{Fair proportions metric for all tips in phylogeny}
-
+Returns a matrix of fair proportion for all tips in phylogeny and node counts if selected.
 }
 \references{
 Redding, D.W. and Mooers, A.O. (2006). Incorporating evolutionary measures into conservation prioritisation. Conservation Biology, 20, 1670-1678.
@@ -43,6 +42,7 @@ Gavin Thomas
 data(anolis.tree)
 
 fp <- fairProportions(anolis.tree)
+fpNodes <- fairProportions(anolis.tree, nodeCount=TRUE)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

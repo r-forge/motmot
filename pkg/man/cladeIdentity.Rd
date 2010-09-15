@@ -1,10 +1,10 @@
 \name{cladeIdentity}
 \alias{cladeIdentity}
 \title{
-Identify nodes and tips descended from a node (internal function).
+Identify branches (including tips) descended from a node (internal function).
 }
 \description{
-Internal function to get presence absence of descendent branches from a vector of node numbers.}
+Internal function to get presence absence of descendent branches from a vector of node numbers. The descendents include the branch leading to the focal node (i.e. node defines the stem group no crown group)}
 \usage{
 cladeIdentity(phy, nodeIDs)
 }

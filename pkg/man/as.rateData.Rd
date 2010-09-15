@@ -9,7 +9,7 @@ species with missing data from the data and vcv matrix.
 
 \code{as.rateData} requires either a set of matrices in rateMatrix format created using 
 \code{as.rateMatrix} or, if no rateMatrix object is input then it requires a phylogeny in "phylo" 
-format. If  a "phylo" object is used  \code{as.rateData} will call /code{as.rateMatrix} internally.
+format. If  a "phylo" object is used  \code{as.rateData} will call \code{as.rateMatrix} internally.
 \code{as.rateMatrix} calls the "ape" function \code{vcv.phylo} multiple times and this can be slow 
 for large phylogenies. It will often be more efficient to use \code{as.rateMatrix} first to create 
 a "rateMatrix" object to pass to \code{as.rateData}, particularly if there are many response traits

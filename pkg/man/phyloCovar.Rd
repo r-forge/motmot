@@ -23,7 +23,7 @@ An object of class "phylo" (see ape package).
 }
 \value{
 
-  \item{brCov }{Brownian variance covariance matrix}
+  \item{brownianVariance }{Brownian variance (or covariance for multiple traits) given the data and phylogeny}
 
 }
 \references{
@@ -49,16 +49,13 @@ Gavin Thomas, Rob Freckleton
 data(anolis.tree)
 data(anolis.data)
 
-# Resolve polytomies
-tree <- multi2di(anolis.tree)
-
 # anolis.data is not matrix and contains missing data so put together matrix of # relevant traits (here female and male snout vent lengths) and remove species 
 # with missing data from the matrix and phylogeny
 anolisSVL <- data.matrix(anolis.data)[,c(5,6)]
 anolisSVL[,1] <- log(anolisSVL[,1])
 anolisSVL[,2] <- log(anolisSVL[,2])
 
-tree <- drop.tip(tree, names(attr(na.omit(anolisSVL), "na.action")))
+tree <- drop.tip(anolis.tree, names(attr(na.omit(anolisSVL), "na.action")))
 anolisSVL <- na.omit(anolisSVL)
 
 # Calculate Brownian variance (or covariance for multiple traits) and log likelihood

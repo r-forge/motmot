@@ -4,7 +4,7 @@ cladeIdentity <- function(phy, nodeIDs) {
 		cladeMembers <- matrix(NA, ncol=k, nrow=length(phy$edge[,1]))
 
 		for (i in 1:k) {
-			nodeShiftID <- node.descendents(x=nodeIDs[i], phy=phy)
+			nodeShiftID <- c(nodeIDs[i], node.descendents(x=nodeIDs[i], phy=phy))
 			cladeMembers[,i] <- as.numeric(phy$edge[,2] %in% nodeShiftID)
 						}
     	

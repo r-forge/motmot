@@ -7,7 +7,7 @@ Identify shifts in the rate of trait diversification
 \description{
 Summarises phenotypic rate variation on phylogenies. }
 \usage{
-traitMedusaSummary(phy = NULL, traitMedusaObject = NULL, cutoff = 4, AICc = TRUE, plotTree = TRUE, stretchTree = FALSE)
+traitMedusaSummary(traitMedusaObject = NULL, cutoff = 4, AICc = TRUE, lowerBound=1e-7, upperBound=200)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,10 +20,10 @@ Output of a medusa analysis in transformPhylo.ML }
 Cutoff value for differences in AIC scores when comparing models. More complex models with an AIC score more than this number of units lower than simpler models are retained (as per runMedusa in the geiger package).}
   \item{AICc}{
 If true, AICc is used instead of AIC.}
-  \item{plotTree}{
-If true the phylogeny is plotted with branches coloured according to rate.}
-  \item{stretchTree}{
-If true the phylo object has branch lengths scaled relative to trait diversification rate. }
+  \item{lowerBound}{
+Minimum value for parameter estimates.}
+  \item{upperBound}{
+Maximum value for parameter estimates. }
 
 }
 \details{
@@ -31,8 +31,10 @@ This functions summarises the output of a "medusa" model in transformPhylo.ML (s
 
 Summarises fits of "medusa" models ("clade" models generated without any a priori assertion of the location of phenotypic diversification rate shifts). It uses the same approach as the runMedusa function in the geiger package (runMedusa tests for shifts in the rate of lineage diversification). The algorithm first fits a constant-rate Brownian model to the data, it then works iteratively through the phylogeny fitting a two-rate model at each node in turn. Each two-rate model is compared to the constant rate model and the best two-rate model is retained. Keeping the location of this rate shift intact, it then repeats the procedure for a three-rate model and so on. The maximum number of rate shifts can be specified a priori using nSplits. Limits can also be applied to the size (species richness) of clades on which to infer new rate shifts using minCladeSize. This can be useful to enable large trees to be handled but should be used cautiously since specifiying a large minimum clade size may result in biologically interesting nested rate shifts being missed. Equally, very small clade sizes may provide poor estimates of rate that may not be informative.}
 \value{
-  \item{optimalTree }{A phylo object with branch lengths coloured and (optionally) scaled scaled relative to rate.}
-  \item{bestModelOut }{Summary of the best optimal rate shift model.}
+    \item{ModelFit }{Summary of the best optimal rate shift model.}
+    \item{Rates }{Summary of the rate parameters from the best rate shift model.}
+    \item{optimalTree }{A phylo object with branch lengths scaled relative to rate.}
+
 
 }
 \references{
@@ -57,22 +59,19 @@ Gavin Thomas
 data(anolis.tree)
 data(anolis.data)
 
-# Resolve polytomies
-tree <- multi2di(anolis.tree)
-
 # anolis.data is not matrix and contains missing data so put together matrix of # relevant traits (here female and male snout vent lengths) and remove species 
 # with missing data from the matrix and phylogeny
 anolisSVL <- data.matrix(anolis.data)[,c(5,6)]
 anolisSVL[,1] <- log(anolisSVL[,1])
 anolisSVL[,2] <- log(anolisSVL[,2])
 
-tree <- drop.tip(tree, names(attr(na.omit(anolisSVL), "na.action")))
+tree <- drop.tip(anolis.tree, names(attr(na.omit(anolisSVL), "na.action")))
 anolisSVL <- na.omit(anolisSVL)
 
 # Identify rate shifts and print and plot results
-anolisSVL_MEDUSA <- transformPhylo.ML(anolisSVL, phy=tree, model="medusa", minCladeSize=20, nSplits=3)
+anolisSVL_MEDUSA <- transformPhylo.ML(anolisSVL, phy=tree, model="tm1", minCladeSize=20, nSplits=3)
 
-anolisSVL_MEDUSA_out <- traitMedusaSummary(anolisSVL_MEDUSA, phy=tree)
+anolisSVL_MEDUSA_out <- traitMedusaSummary(anolisSVL_MEDUSA)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

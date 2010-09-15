@@ -1,5 +1,4 @@
-transformRateMatrix <-
-function(rateData, rate=NULL) {
+transformRateMatrix <- function(rateData, rate=NULL) {
 			V <- rateData$Vmat
 			
 			if(is.null(rate))  { rate <- c(rep(1,length(rateData$Vmat))) } else { rate <- rate }	
@@ -18,6 +17,9 @@ function(rateData, rate=NULL) {
 					}
 					
 			retMat <-  retMat
-			return(retMat)			
-						}
-
+	
+	
+	
+	
+	
+	return(retMat)}

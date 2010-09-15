@@ -6,8 +6,8 @@ Conversion among data and phylogeny objects
 \description{
 Function to generate a "rateMatrix" object containing a set of variance covariance matrices. 
 
-Note that \code{as.rateMatrix} calls the "ape" function \code{vcv.phylo} multiple times and this 
-can be slow for large phylogenies. }
+Note that \code{as.rateMatrix} calls the CAIC function \code{vcv.array} multiple times and this 
+can be slow for large phylogenies (though faster than using the "ape" equivalent \code{vcv.phylo}). }
 \usage{
 as.rateMatrix(phy, x, data)
 }

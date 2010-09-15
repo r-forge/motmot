@@ -1,56 +1,82 @@
-traitMedusaSummary <- function (phy=NULL, traitMedusaObject=NULL, cutoff=4, AICc=TRUE, plotTree=TRUE, stretchTree=FALSE) {
+traitMedusaSummary <- function (traitMedusaObject=NULL, cutoff=4, AICc=TRUE, lowerBound=1e-7, upperBound=200) {
 		
+	y <- traitMedusaObject[[3]]
+	phy <- traitMedusaObject[[4]]
 	breaks <- numeric()
 
-    if (AICc==TRUE) { datCol = 5 } else { datCol = 4 }
+    if (AICc==TRUE) { datCol = 6 } else { datCol = 5 }
     
+	bestModel <- traitMedusaObject[[1]][1,]
+	rateType <- traitMedusaObject[[1]][2:nrow(traitMedusaObject[[1]]),2]
+	
 	for (i in 2:dim(traitMedusaObject[[1]])[1]) {
         if ((traitMedusaObject[[1]][i-1, datCol] - traitMedusaObject[[1]][i, datCol]) < cutoff) 
             break
-        bestModel <- traitMedusaObject[[1]][i,]
+			bestModel <- traitMedusaObject[[1]][i,]
+			}
         
-    }
-        
-    nSplit <- as.integer(rownames(bestModel))-1
-    optimalModelID <- which(traitMedusaObject[[2]][[nSplit]][,2]==max(traitMedusaObject[[2]][[nSplit]][,2]))
-    optimalModel <- traitMedusaObject[[2]][[nSplit]][optimalModelID,]
-    optimalModel <- matrix(optimalModel, nrow=1)
-       
-    optimalShiftNodes <- traitMedusaObject[[1]][2:(nSplit+1),1]
-    
+    bestModelOut <- bestModel[,which(is.na(bestModel)==FALSE)]
+	bestModelOut <- bestModelOut[,2:ncol(bestModelOut)]
+	
+	
+	
+	out <- vector(mode="list", length=3)
+	names(out) <- c("ModelFit", "Rates", "optimalTree")
+	
+	
+	
+	if (bestModel$node==0) { out$optimalTree <- phy 
+							out$ModelFit <- bestModelOut[,2:5]
+							out$Rates <- "Single rate"
+							}
 
-     
-    cladeRates <- optimalModel[,3:(2+nSplit)]
-    bestModelOut <- bestModel[,2:(5+ nSplit)]
-    rownames(bestModelOut) <- "BestModel"
-    optimalTree <- transformPhylo(phy=phy, nodeIDs=optimalShiftNodes, cladeRates=cladeRates, model="clade")
-    
-    
-    
-    rateColours <- rev(rainbow(1000)[1:700])
-    cladeMembers <- cladeIdentity(phy, optimalShiftNodes)
-    edgeColours <- rep("black", length(phy$edge[,1]))
-    
-    RelRateLimit <- max(c(max(cladeRates), 1/min(cladeRates)))
-   		
-   		    
-    for (i in 1:length(cladeRates)) {
-    		
-    		if (length(cladeRates) == 1) { if (cladeRates[i] < 1) {colourID <- 1} else {colourID <- 700} }
-    			
-    			 else { colourID <- round(350 + log10(cladeRates[i]) * (350/log10(RelRateLimit)))} 
-    			 
-    			if (colourID==0) { colourID <- 1 }
-    			if (colourID==701) { colourID <- 700 }
-    	
-			edgeColours[cladeMembers[,i]==1] <- rateColours[colourID] 
-						}
-    
-    
-    if (plotTree) { 
-    	if (stretchTree) { plot(optimalTree, edge.color=edgeColours, edge.width=2) } else { plot(phy, edge.color=edgeColours, edge.width=2) } 
-    	}
+	
+	else {
+	
+	
+		foo <- function(param) {
+			ll <- transformPhylo.ll(y, phyClade, model="clade", nodeIDs=SingleNode, cladeRates=param, rateType=rateType)$logLikelihood
+			return(ll - bestModelOut$ML + 1.92)
+		}
 		
-		return(list(bestModelOut, optimalTree))
+	
+		nodeIDs <- as.numeric(names(bestModelOut)[6:ncol(bestModelOut)])
+		cladeRates <- as.numeric(bestModelOut[,6:ncol(bestModelOut)])
+		optimalTree <- transformPhylo(phy, model="clade", nodeIDs=nodeIDs, cladeRates=cladeRates, rateType=rateType)
+		
+		
+		
+		out$Rates <- matrix(NA, length(nodeIDs), 5, byrow=TRUE)
+		out$Rates <- as.data.frame(out$Rates)
+		colnames(out$Rates) <- c("node", "shiftPos", "MLRate", "LowerCI", "UpperCI")
+		
+		out$ModelFit <- bestModelOut[,2:5]
+	
+		out$optimalTree <- optimalTree
+
+		
+		for (i in 1:length(nodeIDs)) {
+			
+			SingleNode <- nodeIDs[i]
+			
+			phyClade <- transformPhylo(optimalTree, model="clade", nodeIDs=SingleNode, cladeRates=1/cladeRates[i], rateType=rateType)
+
+			
+			if(foo(lowerBound) < 0) { 
+				LCI <- uniroot(foo, interval = c(lowerBound, cladeRates[[i]]))$root 
+			} else { LCI <- NA }
+			if(foo(upperBound) < 0) {
+				UCI <- uniroot(foo, interval = c(cladeRates[[i]], upperBound))$root
+			} else { UCI <- NA }
+			
+			out$Rates[i,] <- c(nodeIDs[i], rateType[i], cladeRates[i], LCI, UCI)
+		}
+		
+		if (any(is.na(out$Rates[,3:4]))) { warning("Confidence limits fall outside the current parameter bounds - consider changing lowerBound and/or upperBound")}
+												   
+
+		
 		
 		 }
+	return(out)
+}

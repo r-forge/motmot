@@ -39,14 +39,7 @@ Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: 
 and island effects. Evolution 63, 2017-2030.}
 \author{
 Gavin Thomas, Rob Freckleton}
-\note{
-The means are output as treatment contrasts.}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 data(anolis.tree)
 data(anolis.data)

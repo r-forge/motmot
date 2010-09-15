@@ -7,7 +7,7 @@ Identify nodes and tips descended from a node (internal function).
 \description{
 Obtains a vector of the tips and nodes subtending from a node in a phylogeny.}
 \usage{
-node.descendents(x, phy)
+node.descendents(x, phy, tip.labels=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,13 +18,15 @@ A positive integer
 An object of class "phylo" (see ape package).
 }
 
+  \item{tip.labels}{
+Logical - output tip.labels?
+}
+
 }
 \details{
 This function is stolen from the clade.members function in the CAIC package but returns both node and tip id's.}
 \value{
-
-  \item{nodes }{A vector of node ids}
-
+Returns a vector of node and tip ids descended from the tip(s) "x". If tip.labels=TRUE then returns a list of node ids and tip labels.
 }
 \references{
 %% ~put references to the literature/web site here ~

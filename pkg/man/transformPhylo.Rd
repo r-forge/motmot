@@ -7,11 +7,11 @@ Phylogenetic tree transformations
 \description{
 Transforms the branch lengths of a phylo object according to a model of trait evolution (see details).}
 \usage{
-transformPhylo(phy, model = NULL, kappa = NULL, lambda = NULL, delta = NULL, nodeIDs = NULL, branchRates=NULL, cladeRates = NULL)
+transformPhylo(phy, model = NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha=NULL, psi=NULL, nodeIDs = NULL, rateType=NULL, branchRates=NULL, cladeRates = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{phy}{
+ \item{phy}{
 An object of class "phylo" (see ape package).
 }
  \item{model}{
@@ -22,13 +22,20 @@ Value of kappa transform.}
 Value of lambda transform.}
   \item{delta}{
 Value of delta transform.}
+  \item{alpha}{
+Value of alpha (OU) transform.}
+  \item{psi}{
+Value of psi transform.}
   \item{nodeIDs}{
 Integer - ancestral nodes of clades.}
+  \item{rateType}{
+If model="clade", a vector specifying if rate shift occurs in a clade ("clade") or on the single branch leading to a clade ("branch").}
 \item{branchRates}{
 Numeric vector specifying relative rates for individual branches.}
   \item{cladeRates}{
 Numeric vector specifying telative rates for clades.}
 }
+
 \details{
 Transforms the branch lengths of a phylo object according to one of the following models:
 
@@ -40,15 +47,22 @@ model="lambda" - fits Pagel's lambda to estimate phylogenetic signal by multiply
 
 model="delta" - fits Pagel's delta by raising all node depths to the power delta. If delta <1, trait evolution is concentrated early in the tree whereas if delta >1 trait evolution is concentrated towards the tips. Values of delta above one can be difficult to fit reliably.
 
-model="free" - fits Mooer's et al's free model where each branch has its own rate of trait evolution. This can be a useful exploratory analysis but it is slow due to the number of parameters, particularly for large trees.
+model="free" - fits Mooer's et al's (1999) free model where each branch has its own rate of trait evolution. This can be a useful exploratory analysis but it is slow due to the number of parameters, particularly for large trees.
 
-model="clade" - fits a model where particular clades are a priori hypothesised to have different rates of trait evolution (see O'Meara et al. 2006; Thomas et al. 2006, 2009). Clades are specified using nodeIDs and are defined as the mrca node. Unique rates for each clade are specified using cladeRates. }
+model="clade" - fits a model where particular clades are a priori hypothesised to have different rates of trait evolution (see O'Meara et al. 2006; Thomas et al. 2006, 2009). Clades are specified using nodeIDs and are defined as the mrca node. Unique rates for each clade are specified using cladeRates. rateType specifies whether the rate shift occurs in the stem clade or on the single branch leading to the clade.
+
+model="OU" - fits an Ornstein-Uhlenbeck model - a random walk with a central tendency proportional to alpha. High values of alpha can be interpreted as evidence of evolutionary constraints, stabilising selection or weak phylogenetic signal.
+
+model="psi" - fits a model to assess to the relative contributions of speciation and gradual evolution to a trait's evolutionary rate (Ingram 2010). 
+}
 
 \value{
   \item{phy }{A phylo object}
 
 }
 \references{
+
+Ingram T. 2010. Speciation along a depth gradient in a marine adaptive radiation. Proceeding of the Royal Society B. In press.
 
 Mooers AO, Vamosi S, & Schluter D. 1999. Using phylogenies to test macroevolutionary models of trait evolution: sexual selection and speciation in Cranes (Gruinae). American Naturalist 154, 249-259.
 
@@ -72,6 +86,9 @@ Gavin Thomas}
 }
 \examples{
 
+# Apply delta transform to anolis tree
+data(anolis.tree)
+anolis.treeDelta <- transformPhylo(phy=anolis.tree, model="delta", delta=0.5)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

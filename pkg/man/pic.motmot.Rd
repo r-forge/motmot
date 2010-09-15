@@ -47,15 +47,12 @@ Gavin Thomas, Rob Freckleton, Emmanuel Paradis}
 data(anolis.tree)
 data(anolis.data)
 
-# Resolve polytomies
-tree <- multi2di(anolis.tree)
-
 # anolis.data is not matrix and contains missing data so put together matrix of # relevant traits (here female and male snout vent lengths) and remove species 
 # with missing data from the matrix and phylogeny
 anolisSVL <- data.matrix(anolis.data)[,5]
 anolisSVL <- as.matrix(log(anolisSVL))
 
-tree <- drop.tip(tree, names(attr(na.omit(anolisSVL), "na.action")))
+tree <- drop.tip(anolis.tree, names(attr(na.omit(anolisSVL), "na.action")))
 anolisSVL <- na.omit(anolisSVL)
 
 # contrasts

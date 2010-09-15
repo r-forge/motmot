@@ -1,9 +1,9 @@
-transformPhylo.ll <- function(y, phy, model=NULL, kappa=NULL, lambda=NULL, delta=NULL, nodeIDs=NULL, branchRates=NULL, cladeRates=NULL) {
+transformPhylo.ll <- function(y, phy, model=NULL, kappa=NULL, lambda=NULL, delta=NULL, alpha=NULL, psi=NULL, nodeIDs=NULL, rateType=NULL, branchRates=NULL, cladeRates=NULL) {
 	
 	switch(model,		  
 		   
 		   "bm" = {
-					vo <- likTraitPhylo(y, phy)
+					transformPhy <- phy
 					},
 		   
 		   "kappa" = {
@@ -18,12 +18,20 @@ transformPhylo.ll <- function(y, phy, model=NULL, kappa=NULL, lambda=NULL, delta
 					transformPhy <- transformPhylo(phy=phy, model="delta", delta=delta)
 					},
 					
-			"free" = {
+		   "free" = {
 					transformPhy <- transformPhylo(phy=phy, model="free", branchRates=branchRates)
 					},
 		   
 		   "clade" = {
-					transformPhy <- transformPhylo(phy=phy, model="clade", nodeIDs=nodeIDs, cladeRates=cladeRates)
+					transformPhy <- transformPhylo(phy=phy, model="clade", nodeIDs=nodeIDs, cladeRates=cladeRates, rateType=rateType)
+					},
+		   
+		   "OU" = {
+					transformPhy <- transformPhylo(phy=phy, model="OU", alpha=alpha)
+					},
+		   
+		   "psi" = {
+					transformPhy <- transformPhylo(phy=phy, model="psi", psi=psi)
 					}
 		   
 		   )

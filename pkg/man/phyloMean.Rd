@@ -22,7 +22,7 @@ phyloMean(rateData, rate = NULL, common.mean = FALSE)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  \item{mu       }{phylogenetically corrected mean (root state under the Brownian model)}
+  \item{mu       }{phylogenetically corrected mean}
 
 }
 \references{
