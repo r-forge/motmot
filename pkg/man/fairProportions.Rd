@@ -6,7 +6,7 @@ Calculate fair proportions phylogenetic diversity metric}
 \description{
 Calculate fair proportions phylogenetic diversity metric}
 \usage{
-fairProportions(phy)
+fairProportions(phy, nodeCount=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

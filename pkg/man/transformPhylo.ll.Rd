@@ -11,6 +11,9 @@ transformPhylo.ll(y, phy, model = NULL, kappa = NULL, lambda = NULL, delta = NUL
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+\item{y}{
+A matrix of trait values.
+}
   \item{phy}{
 An object of class "phylo" (see ape package).
 }

@@ -4,7 +4,7 @@ Title: Models of Trait Macroevolution on Trees
 Version: 0.3
 Imports: ape, mvtnorm, MASS, CAIC, laser
 Depends: ape, mvtnorm, MASS, CAIC, laser
-Date: 2010-07-28
+Date: 2010-09-15
 Author: Gavin Thomas, Rob Freckleton
 Maintainer: Gavin Thomas <gavin.thomas@bristol.ac.uk>
 Description: motmot provides functions for fitting models of trait evolution

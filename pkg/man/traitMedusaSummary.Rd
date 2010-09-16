@@ -11,9 +11,6 @@ traitMedusaSummary(traitMedusaObject = NULL, cutoff = 4, AICc = TRUE, lowerBound
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{phy}{
-An object of class "phylo" (see ape package).
-}
   \item{traitMedusaObject}{
 Output of a medusa analysis in transformPhylo.ML }
   \item{cutoff}{
