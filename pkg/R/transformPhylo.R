@@ -81,7 +81,7 @@ transformPhylo <- function(phy, model=NULL, kappa=NULL, lambda=NULL, delta=NULL,
 					probNoDescendents <- mu*(exp((lambda-mu)*phy$edge.length)-1) / ((lambda*exp((lambda-mu)*phy$edge.length))-mu) # probability that a branch has no descendents
 					sh <- (lambda*probNoDescendents) * phy$edge.length
 					phy2 <- phy
-					phy2$edge.length <- psi * (phy$edge.length^0 + sh) + (1-psi)*phy$edge.length
+					phy2$edge.length <- (psi/lambda) * (phy$edge.length^0 + sh) + (1-psi)*phy$edge.length
 					phy <- phy2
 					}		   
 		   

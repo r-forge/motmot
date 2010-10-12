@@ -311,99 +311,100 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					}
 					},
 		   
-		   "tm2" = {
-					if (is.null(lowerBound)) { lowerBound <- bounds["rate", 1] }
-					if (is.null(upperBound)) { upperBound <- bounds["rate", 2] }
-			
-					nodes <- unique(sort(phy$edge[,2]))
-					nodeDepth <- node.depth(phy)
-					nodesByRichness <- cbind(richness= nodeDepth[nodes], node=nodes)
-					searchNode <- nodesByRichness[nodesByRichness[,1] >= minCladeSize,2]
-		   
-		   
-						if (is.null(restrictNode)==FALSE) {
-		   
-							ngroups <- length(restrictNode)
-							cm <- clade.matrix(phy)
-		   
-							colnames(cm$clade.matrix) <- cm$tip.label
-							cmMat <- cm$clade.matrix
-		   
-							skipNodes <- numeric()
-		   
-							for (i in 1:ngroups) {
-								matDrop <- cmMat[,restrictNode[[i]]] 
-								nodeDrop <- rowSums(matDrop) < length(restrictNode[[i]]) & rowSums(matDrop) > 1
-								skipNodes <- c(skipNodes, as.numeric(rownames(matDrop)[nodeDrop]))
-								}
-						
-							searchNode <- setdiff(searchNode, skipNodes)
-							}
-		   
-		   
-					n <- length(y)
-					BERateOut <- matrix(NA, nrow=nSplits, ncol=(6+nSplits))
-					fullModelOut <- vector(mode="list", length=nSplits)
-		   
-					for (k in 1:nSplits) {
-						cladeMembers <- matrix(NA, ncol=k, nrow=length(phy$edge[,1]))
-						if (k==1) {searchNode <- searchNode} else { searchNode <- searchNode[!(searchNode %in% bestNodes)] }
-		   
-		   
-						for (i in searchNode) {
-		   
-							if (k == 1) { currentNodeIDs <- i } else { currentNodeIDs <- c(bestNodes, i) }
-		   
-							cladeRates <- rep(1,length(currentNodeIDs))
-							var.funclade <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=currentNodeIDs, rateType=rep("clade", length(currentNodeIDs)), cladeRates=cladeRates, model="clade")[[2]])}
-							var.funbranch <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=currentNodeIDs, rateType=rep("branch", length(currentNodeIDs)), cladeRates=cladeRates, model="clade")[[2]])}
-
-							currentCladeModel <- optim(cladeRates, var.funclade, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
-							currentBranchModel <- optim(cladeRates, var.funbranch, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
-
-		   
-							fullModelOut[[k]] <- rbind(fullModelOut[[k]], c(node=as.integer(i), shiftPos=1, ML= currentCladeModel$value, currentCladeModel$par))
-							fullModelOut[[k]] <- rbind(fullModelOut[[k]], c(node=as.integer(i), shiftPos=2, ML= currentBranchModel$value, currentBranchModel$par))
-		   
-							if (currentCladeModel$value > currentBranchModel$value) { currentModel <- currentCladeModel; shiftPos=1 }
-							if (currentCladeModel$value < currentBranchModel$value) { currentModel <- currentBranchModel; shiftPos=2 }
-
-							param <- k+2
-		   
-							currentModel <- list(currentModel, i, cladeMembers)
-							currentML <- currentModel[[1]]$value
-							AIC <- -2 * currentModel[[1]]$value + 2 * param
-							AICc <- -2 * currentModel[[1]]$value + 2 * param + ((2*param*(param+1))/(n-param-1))
-		   
-		   
-							if (i == min(searchNode)) {BERateOut[k, 1:(6+k)] <- c(currentModel[[2]], shiftPos, currentModel[[1]]$value, k+2, AIC, AICc, currentModel[[1]]$par)} else {
-		   
-							if (currentML > BERateOut[k, 3]) {BERateOut[k, 1:(6+k)] <- c(currentModel[[2]], shiftPos, currentModel[[1]]$value, k+2, AIC, AICc, currentModel[[1]]$par) }
-							}
-							}
-						
-						if (k==1) {bestNodes <- BERateOut[k,1]} else {bestNodes <- c(bestNodes, BERateOut[k,1])}
-		   
-						print(BERateOut)
-						}
-		   
-		   
-					BERateSummary <- matrix(NA, ncol=(6+nSplits), nrow=1)
-					BERateSummary <- as.data.frame(BERateSummary)
-					MLsingle <- likTraitPhylo(y, phy)[[2]]
-					AICsingle <- -2 * MLsingle + 2 * 2
-					AICcsingle <- -2 * MLsingle + 2 * 2 + ((2*2*(2+1))/(n-2-1)) 
-					BERateSummary[1,1:6] <- c(0, 1, MLsingle, 2, AICsingle, AICcsingle)		   		
-					BERateSummary <- rbind(BERateSummary, BERateOut)
-					colnames(BERateSummary) <- c("node", "shiftPos", "ML", "k", "AIC", "AICc",c(BERateSummary[2:nrow(BERateSummary),1]))
-		   
-		   
-					if (sum(BERateSummary[,"shiftPos"]==1) > 0) {BERateSummary[which(BERateSummary[,"shiftPos"]==1), "shiftPos"] <- "clade"}
-					if (sum(BERateSummary[,"shiftPos"]==2) > 0) {BERateSummary[which(BERateSummary[,"shiftPos"]==2), "shiftPos"] <- "branch"}
-
-					out <- list(as.data.frame(BERateSummary), fullModelOut, y, phy)
-					},
-
+#   "tm2" = {
+#					if (is.null(lowerBound)) { lowerBound <- bounds["rate", 1] }
+#					if (is.null(upperBound)) { upperBound <- bounds["rate", 2] }
+#			
+#					nodes <- unique(sort(phy$edge[,2]))
+#					nodeDepth <- node.depth(phy)
+#					nodesByRichness <- cbind(richness= nodeDepth[nodes], node=nodes)
+#					searchNode <- nodesByRichness[nodesByRichness[,1] >= minCladeSize,2]
+#		   
+#		   
+#						if (is.null(restrictNode)==FALSE) {
+#		   
+#							ngroups <- length(restrictNode)
+#							cm <- clade.matrix(phy)
+#		   
+#							colnames(cm$clade.matrix) <- cm$tip.label
+#							cmMat <- cm$clade.matrix
+#		   
+#							skipNodes <- numeric()
+#		   
+#							for (i in 1:ngroups) {
+#								matDrop <- cmMat[,restrictNode[[i]]] 
+#								nodeDrop <- rowSums(matDrop) < length(restrictNode[[i]]) & rowSums(matDrop) > 1
+#								skipNodes <- c(skipNodes, as.numeric(rownames(matDrop)[nodeDrop]))
+#								}
+#						
+#							searchNode <- setdiff(searchNode, skipNodes)
+#							}
+#		   
+#		   
+#					n <- length(y)
+#					BERateOut <- matrix(NA, nrow=nSplits, ncol=(6+nSplits))
+#					fullModelOut <- vector(mode="list", length=nSplits)
+#		   
+#					for (k in 1:nSplits) {
+#						cladeMembers <- matrix(NA, ncol=k, nrow=length(phy$edge[,1]))
+#						if (k==1) {searchNode <- searchNode} else { searchNode <- searchNode[!(searchNode %in% bestNodes)] }
+#		   
+#		   
+#						for (i in searchNode) {
+#		   
+#							if (k == 1) { currentNodeIDs <- i } else { currentNodeIDs <- c(bestNodes, i) }
+#		   
+#							cladeRates <- rep(1,length(currentNodeIDs))
+#							var.funclade <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=currentNodeIDs, rateType=rep("clade", length(currentNodeIDs)), cladeRates=cladeRates, model="clade")[[2]])}
+#							var.funbranch <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=currentNodeIDs, rateType=rep("branch", length(currentNodeIDs)), cladeRates=cladeRates, model="clade")[[2]])}
+#
+#							currentCladeModel <- optim(cladeRates, var.funclade, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
+#							currentBranchModel <- optim(cladeRates, var.funbranch, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
+#
+#		   
+#							fullModelOut[[k]] <- rbind(fullModelOut[[k]], c(node=as.integer(i), shiftPos=1, ML= currentCladeModel$value, currentCladeModel$par))
+#							fullModelOut[[k]] <- rbind(fullModelOut[[k]], c(node=as.integer(i), shiftPos=2, ML= currentBranchModel$value, currentBranchModel$par))
+#		   
+#							if (currentCladeModel$value > currentBranchModel$value) { currentModel <- currentCladeModel; shiftPos=1 }
+#							if (currentCladeModel$value < currentBranchModel$value) { currentModel <- currentBranchModel; shiftPos=2 }
+#
+#							param <- k+2
+#		   
+#							currentModel <- list(currentModel, i, cladeMembers)
+#							currentML <- currentModel[[1]]$value
+#							AIC <- -2 * currentModel[[1]]$value + 2 * param
+#							AICc <- -2 * currentModel[[1]]$value + 2 * param + ((2*param*(param+1))/(n-param-1))
+#		   
+#		   
+#							if (i == min(searchNode)) {BERateOut[k, 1:(6+k)] <- c(currentModel[[2]], shiftPos, currentModel[[1]]$value, k+2, AIC, AICc, currentModel[[1]]$par)} else {
+#		   
+#							if (currentML > BERateOut[k, 3]) {BERateOut[k, 1:(6+k)] <- c(currentModel[[2]], shiftPos, currentModel[[1]]$value, k+2, AIC, AICc, currentModel[[1]]$par) }
+#							}
+#							}
+#						
+#						if (k==1) {bestNodes <- BERateOut[k,1]} else {bestNodes <- c(bestNodes, BERateOut[k,1])}
+#		   
+#						print(BERateOut)
+#						}
+#
+#		   
+#		   
+#					BERateSummary <- matrix(NA, ncol=(6+nSplits), nrow=1)
+#					BERateSummary <- as.data.frame(BERateSummary)
+#					MLsingle <- likTraitPhylo(y, phy)[[2]]
+#					AICsingle <- -2 * MLsingle + 2 * 2
+#					AICcsingle <- -2 * MLsingle + 2 * 2 + ((2*2*(2+1))/(n-2-1)) 
+#					BERateSummary[1,1:6] <- c(0, 1, MLsingle, 2, AICsingle, AICcsingle)		   		
+#					BERateSummary <- rbind(BERateSummary, BERateOut)
+#					colnames(BERateSummary) <- c("node", "shiftPos", "ML", "k", "AIC", "AICc",c(BERateSummary[2:nrow(BERateSummary),1]))
+#		   
+#		   
+#					if (sum(BERateSummary[,"shiftPos"]==1) > 0) {BERateSummary[which(BERateSummary[,"shiftPos"]==1), "shiftPos"] <- "clade"}
+#					if (sum(BERateSummary[,"shiftPos"]==2) > 0) {BERateSummary[which(BERateSummary[,"shiftPos"]==2), "shiftPos"] <- "branch"}
+#
+#					out <- list(as.data.frame(BERateSummary), fullModelOut, y, phy)
+#					},
+#
 		   
 		   "tm1" = {
 					if (is.null(lowerBound)) { lowerBound <- bounds["rate", 1] }
