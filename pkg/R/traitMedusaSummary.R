@@ -35,17 +35,16 @@ traitMedusaSummary <- function (traitMedusaObject=NULL, cutoff=4, AICc=TRUE, low
 	
 	
 		foo <- function(param) {
-			ll <- transformPhylo.ll(y, phyClade, model="clade", nodeIDs=SingleNode, cladeRates=param, rateType=rateType)$logLikelihood
+			ll <- transformPhylo.ll(y, phyClade, model="clade", nodeIDs=SingleNode, cladeRates=param, rateType=whichRateType)$logLikelihood
 			return(ll - bestModelOut$ML + 1.92)
 		}
 		
 	
 		nodeIDs <- as.numeric(names(bestModelOut)[6:ncol(bestModelOut)])
 		cladeRates <- as.numeric(bestModelOut[,6:ncol(bestModelOut)])
+		rateType <- traitMedusaObject[[1]][2:(length(cladeRates)+1),2]
 		optimalTree <- transformPhylo(phy, model="clade", nodeIDs=nodeIDs, cladeRates=cladeRates, rateType=rateType)
-		
-		
-		
+
 		out$Rates <- matrix(NA, length(nodeIDs), 5, byrow=TRUE)
 		out$Rates <- as.data.frame(out$Rates)
 		colnames(out$Rates) <- c("node", "shiftPos", "MLRate", "LowerCI", "UpperCI")
@@ -58,9 +57,10 @@ traitMedusaSummary <- function (traitMedusaObject=NULL, cutoff=4, AICc=TRUE, low
 		for (i in 1:length(nodeIDs)) {
 			
 			SingleNode <- nodeIDs[i]
-			
-			phyClade <- transformPhylo(optimalTree, model="clade", nodeIDs=SingleNode, cladeRates=1/cladeRates[i], rateType=rateType)
-
+			whichRateType <- rateType[i]
+			phyClade <- transformPhylo(optimalTree, model="clade", nodeIDs=SingleNode, cladeRates=1/cladeRates[i], rateType=whichRateType)
+			LCI <- NULL
+			UCI <- NULL
 			
 			if(foo(lowerBound) < 0) { 
 				LCI <- uniroot(foo, interval = c(lowerBound, cladeRates[[i]]))$root 
@@ -69,7 +69,9 @@ traitMedusaSummary <- function (traitMedusaObject=NULL, cutoff=4, AICc=TRUE, low
 				UCI <- uniroot(foo, interval = c(cladeRates[[i]], upperBound))$root
 			} else { UCI <- NA }
 			
-			out$Rates[i,] <- c(nodeIDs[i], rateType[i], cladeRates[i], LCI, UCI)
+
+			
+			out$Rates[i,] <- aaa <- c(nodeIDs[i], rateType[i], cladeRates[i], LCI, UCI)
 		}
 		
 		if (any(is.na(out$Rates[,3:4]))) { warning("Confidence limits fall outside the current parameter bounds - consider changing lowerBound and/or upperBound")}

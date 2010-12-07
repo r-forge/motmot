@@ -46,13 +46,52 @@ transformPhylo <- function(phy, model=NULL, kappa=NULL, lambda=NULL, delta=NULL,
 					},
 		     
 		   "clade" = {
-					cladeMembers <- cladeIdentity(phy=phy, nodeIDs=nodeIDs)
+					
 					if (is.null(rateType)) { rateType <- rep("clade", length(nodeIDs))} else {rateType <- rateType}
+					
+					branchShiftNms <- branchShiftID <- cladeShiftNms <- cladeShiftID <- NULL
+		   
+					cladeMembers <- matrix(0, ncol=length(nodeIDs), nrow=length(phy$edge[,1]))
+		   
+					# clade shifts
+					shiftType <- data.frame(rateType, nodeIDs, cladeRates)
+					colnms <- paste(shiftType[,1], shiftType[,2], sep="")
+					shiftType <- data.frame(shiftType, colnms)
+		   
+					if (sum(shiftType[,1]=="clade")>0) {cladeShiftID <- shiftType[shiftType[,1]=="clade",2]	  
+														cladeShiftNms <- as.character(shiftType[shiftType[,1]=="clade",4])
+														cladeMembers[,1:length(cladeShiftID)] <- cladeIdentity(phy=phy, nodeIDs=cladeShiftID)
+														}
+		   
+		   
+					if (sum(shiftType[,1]=="branch")>0) {branchShiftID <- shiftType[shiftType[,1]=="branch",2]
+														 branchShiftNms <- as.character(shiftType[shiftType[,1]=="branch",4]) 
+														 }
+		   
+			
+					if (is.null(branchShiftNms)==FALSE) {colnames(cladeMembers) <- c(cladeShiftNms, rep(NA, length(branchShiftNms)))}
+					if (is.null(branchShiftNms)==TRUE) {colnames(cladeMembers) <- cladeShiftNms}
+
+		   
+					# branch shifts
+					if (sum(shiftType[,1]=="branch")>0) {
+		   
+		   
+						for (i in 1:length(branchShiftID)) {
+							branchID <- which(phy$edge[,2]==branchShiftID[i])
+							cladeMembers[branchID,] <- 0
+							cladeMembers[branchID, length(cladeShiftID)+i] <- 1
+							colnames(cladeMembers)[length(cladeShiftID)+i] <- branchShiftNms[i]
+							}
+						}
+		   
+		   
+					cladeMembers <- as.matrix(cladeMembers[,match(shiftType[,4], colnames(cladeMembers))] )
 		   
 					for (i in 1:length(cladeRates)) {
-						if (rateType[i]=="clade") {phy$edge.length[cladeMembers[,i]==1] <- phy$edge.length[cladeMembers[,i]==1] * cladeRates[i]}
-						if (rateType[i]=="branch"){phy$edge.length[phy$edge[,2]==nodeIDs[i]] <- phy$edge.length[phy$edge[,2]==nodeIDs[i]] * cladeRates[i]}
+						phy$edge.length[cladeMembers[,i]==1] <- phy$edge.length[cladeMembers[,i]==1] * cladeRates[i]
 						}
+					
 					},
 		   
 		   
