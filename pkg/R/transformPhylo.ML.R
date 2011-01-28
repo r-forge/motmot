@@ -1,7 +1,7 @@
 transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, rateType=NULL, minCladeSize=1, nSplits=10, restrictNode=NULL, lowerBound=NULL, upperBound=NULL, tol=NULL){
 	
 	
-	bounds <- matrix(c(1e-7,1,1e-7,1,1e-7,5,1e-7,10,0,1,1e-7,NA), 6, 2, byrow=TRUE)
+	bounds <- matrix(c(1e-7,1,1e-7,1,1e-7,5,1e-7,10,0,1,1e-7,1000), 6, 2, byrow=TRUE)
 	rownames(bounds) <- c("kappa", "lambda", "delta", "alpha", "psi", "rate")
 	
 	switch(model,
