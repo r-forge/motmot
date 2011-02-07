@@ -1,8 +1,8 @@
 Package: motmot
 Type: Package
 Title: Models of Trait Macroevolution on Trees
-Version: 0.3-5
-Depends: ape, mvtnorm, MASS, CAIC, laser
+Version: 0.3-6
+Depends: R (>= 2.6.0), ape, mvtnorm, MASS, CAIC, laser
 Date: 2010-10-12
 Author: Gavin Thomas, Rob Freckleton
 Maintainer: Gavin Thomas <gavin.thomas@bristol.ac.uk>
