@@ -1,7 +1,7 @@
 transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, rateType=NULL, minCladeSize=1, nSplits=10, restrictNode=NULL, lowerBound=NULL, upperBound=NULL, tol=NULL){
 	
 	
-	bounds <- matrix(c(1e-7,1,1e-7,1,1e-7,5,1e-7,10,0,1,1e-7,1000), 6, 2, byrow=TRUE)
+	bounds <- matrix(c(1e-8,1,1e-8,1,1e-8,5,1e-8,20,0,1,1e-8,1000), 6, 2, byrow=TRUE)
 	rownames(bounds) <- c("kappa", "lambda", "delta", "alpha", "psi", "rate")
 	
 	switch(model,
@@ -16,20 +16,21 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					if (is.null(lowerBound)) { lowerBound <- bounds["kappa", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["kappa", 2] }
 					var.funkappa <- function(kappa) { return(transformPhylo.ll(y, phy, kappa, model="kappa")[[2]])}
-					vo <- optimise(var.funkappa, interval=c(lowerBound, upperBound), maximum=TRUE)
-		   
+					#vo <- optimise(var.funkappa, interval=c(lowerBound, upperBound), maximum=TRUE)
+					vo <- optim(kappa, var.funkappa, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
+
 					if (modelCIs==TRUE) {
 		   
 						foo <- function(param) {
 							ll <- transformPhylo.ll(y, phy, model="kappa", kappa=param)$logLikelihood
-							return(ll - vo$objective + 1.92)
+							return(ll - vo$value + 1.92)
 							}
 		   
 						if(foo(lowerBound) < 0) { 
-							LCI <- uniroot(foo, interval = c(lowerBound, vo$maximum))$root 
+							LCI <- uniroot(foo, interval = c(lowerBound, vo$par))$root 
 							} else { LCI <- NA }
 						if(foo(upperBound) < 0) {
-							UCI <- uniroot(foo, interval = c(vo$maximum, upperBound))$root
+							UCI <- uniroot(foo, interval = c(vo$par, upperBound))$root
 						} else { UCI <- NA }
 							   
 					out <- vector(mode="list", length=2)
@@ -38,8 +39,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out$Kappa <- matrix(NA, 1, 3, byrow=TRUE)
 					colnames(out$Kappa) <- c("MLKappa", "LowerCI", "UpperCI")
 		   
-					out$MaximumLikelihood <- vo$objective
-					out$Kappa[1,] <- c(vo$maximum, LCI, UCI)
+					out$MaximumLikelihood <- vo$value
+					out$Kappa[1,] <- c(vo$par, LCI, UCI)
 		   
 		   
 					if (any(is.na(out$Kappa[1,2:3]))) { warning("Confidence limits fall outside the current parameter bounds - consider changing lowerBound and/or upperBound")}
@@ -52,8 +53,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out$Kappa <- matrix(NA, 1, 1, byrow=TRUE)
 					colnames(out$Kappa) <- c("MLKappa")
 		   
-					out$MaximumLikelihood <- vo$objective
-					out$Kappa[1,] <- c(vo$maximum)
+					out$MaximumLikelihood <- vo$value
+					out$Kappa[1,] <- c(vo$par)
 		   
 					}
 					},
@@ -63,20 +64,21 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					if (is.null(lowerBound)) { lowerBound <- bounds["lambda", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["lambda", 2] }
 					var.funlambda <- function(lambda) { return(transformPhylo.ll(y=y, phy=phy, lambda=lambda, model="lambda")[[2]])}
-					vo <- optimise(var.funlambda, interval=bounds["lambda",], maximum=TRUE)
-		   
+					#vo <- optimise(var.funlambda, interval=bounds["lambda",], maximum=TRUE)
+					vo <- optim(lambda, var.funlambda, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
+
 					if (modelCIs==TRUE) {
 		   
 						foo <- function(param) {
 							ll <- transformPhylo.ll(y, phy, model="lambda", lambda=param)$logLikelihood
-							return(ll - vo$objective + 1.92)
+							return(ll - vo$value + 1.92)
 							}
 		   
 						if(foo(lowerBound) < 0) { 
-							LCI <- uniroot(foo, interval = c(lowerBound, vo$maximum))$root 
+							LCI <- uniroot(foo, interval = c(lowerBound, vo$par))$root 
 							} else { LCI <- NA }
 						if(foo(upperBound) < 0) {
-							UCI <- uniroot(foo, interval = c(vo$maximum, upperBound))$root
+							UCI <- uniroot(foo, interval = c(vo$par, upperBound))$root
 							} else { UCI <- NA }
 		   
 					out <- vector(mode="list", length=2)
@@ -85,8 +87,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out$Lambda <- matrix(NA, 1, 3, byrow=TRUE)
 					colnames(out$Lambda) <- c("MLLambda", "LowerCI", "UpperCI")
 		   
-					out$MaximumLikelihood <- vo$objective
-					out$Lambda[1,] <- c(vo$maximum, LCI, UCI)
+					out$MaximumLikelihood <- vo$value
+					out$Lambda[1,] <- c(vo$par, LCI, UCI)
 		   
 					
 					if (any(is.na(out$Lambda[1,2:3]))) { warning("Confidence limits fall outside the current parameter bounds - consider changing lowerBound and/or upperBound")}
@@ -99,8 +101,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out$Lambda <- matrix(NA, 1, 1, byrow=TRUE)
 					colnames(out$Lambda) <- c("MLLambda")
 		   
-					out$MaximumLikelihood <- vo$objective
-					out$Lambda[1,] <- c(vo$maximum)
+					out$MaximumLikelihood <- vo$value
+					out$Lambda[1,] <- c(vo$par)
 		   
 					}
 					},
@@ -110,20 +112,21 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					if (is.null(lowerBound)) { lowerBound <- bounds["delta", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["delta", 2] }
 					var.fundelta <- function(delta) { return(transformPhylo.ll(y=y, phy=phy, delta=delta, model="delta")[[2]])}
-					vo <- optimise(var.fundelta, interval=bounds["delta",], maximum=TRUE)
-		   
+					#vo <- optimise(var.fundelta, interval=bounds["delta",], maximum=TRUE)
+					vo <- optim(delta, var.fundelta, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
+
 					if (modelCIs==TRUE) {
 		   
 						foo <- function(param) {
 							ll <- transformPhylo.ll(y, phy, model="delta", delta=param)$logLikelihood
-							return(ll - vo$objective + 1.92)
+							return(ll - vo$value + 1.92)
 							}
 		   
 						if(foo(lowerBound) < 0) { 
-							LCI <- uniroot(foo, interval = c(lowerBound, vo$maximum))$root 
+							LCI <- uniroot(foo, interval = c(lowerBound, vo$par))$root 
 							} else { LCI <- NA }
 						if(foo(upperBound) < 0) {
-							UCI <- uniroot(foo, interval = c(vo$maximum, upperBound))$root
+							UCI <- uniroot(foo, interval = c(vo$par, upperBound))$root
 							} else { UCI <- NA }
 		   
 					out <- vector(mode="list", length=2)
@@ -132,8 +135,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out$Delta <- matrix(NA, 1, 3, byrow=TRUE)
 					colnames(out$Delta) <- c("MLDelta", "LowerCI", "UpperCI")
 		   
-					out$MaximumLikelihood <- vo$objective
-					out$Delta[1,] <- c(vo$maximum, LCI, UCI)
+					out$MaximumLikelihood <- vo$value
+					out$Delta[1,] <- c(vo$par, LCI, UCI)
 		   
 		   
 					if (any(is.na(out$Delta[1,2:3]))) { warning("Confidence limits fall outside the current parameter bounds - consider changing lowerBound and/or upperBound")}
@@ -146,8 +149,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out$Delta <- matrix(NA, 1, 1, byrow=TRUE)
 					colnames(out$Delta) <- c("MLDelta")
 		   
-					out$MaximumLikelihood <- vo$objective
-					out$Delta[1,] <- c(vo$maximum)
+					out$MaximumLikelihood <- vo$value
+					out$Delta[1,] <- c(vo$par)
 		   
 					}
 					},
@@ -157,20 +160,21 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					if (is.null(lowerBound)) { lowerBound <- bounds["alpha", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["alpha", 2] }
 					var.funOU <- function(alpha) { return(transformPhylo.ll(y=y, phy=phy, alpha=alpha, model="OU")[[2]])}
-					vo <- optimise(var.funOU, interval=bounds["alpha",], maximum=TRUE)
-		   
+					#vo <- optimise(var.funOU, interval=bounds["alpha",], maximum=TRUE)
+					vo <- optim(alpha, var.funOU, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
+
 					if (modelCIs==TRUE) {
 		   
 						foo <- function(param) {
 							ll <- transformPhylo.ll(y, phy, model="OU", alpha=param)$logLikelihood
-							return(ll - vo$objective + 1.92)
+							return(ll - vo$value + 1.92)
 							}
 		   
 						if(foo(lowerBound) < 0) { 
-							LCI <- uniroot(foo, interval = c(lowerBound, vo$maximum))$root 
+							LCI <- uniroot(foo, interval = c(lowerBound, vo$par))$root 
 							} else { LCI <- NA }
 						if(foo(upperBound) < 0) {
-							UCI <- uniroot(foo, interval = c(vo$maximum, upperBound))$root
+							UCI <- uniroot(foo, interval = c(vo$par, upperBound))$root
 							} else { UCI <- NA }
 
 		   
@@ -180,8 +184,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out$Alpha <- matrix(NA, 1, 3, byrow=TRUE)
 					colnames(out$Alpha) <- c("MLAlpha", "LowerCI", "UpperCI")
 		   
-					out$MaximumLikelihood <- vo$objective
-					out$Alpha[1,] <- c(vo$maximum, LCI, UCI)
+					out$MaximumLikelihood <- vo$value
+					out$Alpha[1,] <- c(vo$par, LCI, UCI)
 		   
 		   
 					if (any(is.na(out$Alpha[1,2:3]))) { warning("Confidence limits fall outside the current parameter bounds - consider changing lowerBound and/or upperBound")}
@@ -194,8 +198,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out$Alpha <- matrix(NA, 1, 1, byrow=TRUE)
 					colnames(out$Alpha) <- c("MLAlpha")
 		   
-					out$MaximumLikelihood <- vo$objective
-					out$Alpha[1,] <- c(vo$maximum)
+					out$MaximumLikelihood <- vo$value
+					out$Alpha[1,] <- c(vo$par)
 		   
 					}
 					},
@@ -205,20 +209,21 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					if (is.null(lowerBound)) { lowerBound <- bounds["psi", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["psi", 2] }
 					var.funpsi <- function(psi) { return(transformPhylo.ll(y=y, phy=phy, psi=psi, model="psi")[[2]])}
-					vo <- optimise(var.funpsi, interval=bounds["psi",], maximum=TRUE)
-		   
+					#vo <- optimise(var.funpsi, interval=bounds["psi",], maximum=TRUE)
+					vo <- optim(psi, var.funpsi, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
+
 					if (modelCIs==TRUE) {
 		   
 					foo <- function(param) {
 						ll <- transformPhylo.ll(y, phy, model="psi", psi=param)$logLikelihood
-						return(ll - vo$objective + 1.92)
+						return(ll - vo$value + 1.92)
 						}
 		   
 				if(foo(lowerBound) < 0) { 
-					LCI <- uniroot(foo, interval = c(lowerBound, vo$maximum))$root 
+					LCI <- uniroot(foo, interval = c(lowerBound, vo$par))$root 
 					} else { LCI <- NA }
 				if(foo(upperBound) < 0) {
-					UCI <- uniroot(foo, interval = c(vo$maximum, upperBound))$root
+					UCI <- uniroot(foo, interval = c(vo$par, upperBound))$root
 					} else { UCI <- NA }
 		   
 				out <- vector(mode="list", length=2)
@@ -227,8 +232,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 				out$psi <- matrix(NA, 1, 3, byrow=TRUE)
 				colnames(out$psi) <- c("MLpsi", "LowerCI", "UpperCI")
 		   
-				out$MaximumLikelihood <- vo$objective
-				out$psi[1,] <- c(vo$maximum, LCI, UCI)
+				out$MaximumLikelihood <- vo$value
+				out$psi[1,] <- c(vo$par, LCI, UCI)
 		   
 		   
 				if (any(is.na(out$psi[1,2:3]))) { warning("Confidence limits fall outside the current parameter bounds - consider changing lowerBound and/or upperBound")}
@@ -241,8 +246,8 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 				out$psi <- matrix(NA, 1, 1, byrow=TRUE)
 				colnames(out$psi) <- c("MLpsi")
 		   
-				out$MaximumLikelihood <- vo$objective
-				out$psi[1,] <- c(vo$maximum)
+				out$MaximumLikelihood <- vo$value
+				out$psi[1,] <- c(vo$par)
 		   
 				}
 				},
