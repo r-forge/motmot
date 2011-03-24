@@ -15,9 +15,7 @@ An object of class "phylo" (see ape package).
 }
 \item{nodeCount}{Logical - should root to tip node counts be returned (default is FALSE)}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 Returns a matrix of fair proportion for all tips in phylogeny and node counts if selected.
 }
@@ -28,15 +26,11 @@ Isaac, N.J.B., Turvey, S.T., Collen, B., Waterman, C. and Baillie, J.E.M. (2007)
 \author{
 Gavin Thomas
 }
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 
 data(anolis.tree)

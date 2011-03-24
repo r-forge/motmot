@@ -29,6 +29,11 @@ function(rateData, fixed, common.mean=FALSE) {
 				retMat <- retMat + rateMats[[i]]
 			}
 			
+			meserr <- rateData$meserr
+			if(is.null(meserr) == FALSE) { 
+				y <- rateData$y
+				diag(retMat) <- diag(retMat) + (meserr^2) / (var(y)/max(retMat)) }
+			
 			x <- make.anc(y, x)
 			
 			if(common.mean==FALSE) {

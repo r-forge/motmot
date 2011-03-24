@@ -24,9 +24,7 @@ a logical specififying whether each rate category should have its own mean (\cod
 or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) 
 for a discussion on the impact of assumptions about mean on rate estimates.}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
   \item{phylo.var       }{phylogenetic variance (Brownian variance)}
 }

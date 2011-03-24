@@ -18,9 +18,7 @@ phyloMean(rateData, rate = NULL, common.mean = FALSE)
   See Thomas et al. (2009) for a discussion on the impact of assumptions about mean on rate 
   estimates.   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
   \item{mu       }{phylogenetically corrected mean}
 
@@ -39,9 +37,7 @@ The means are output as treatment contrasts.}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 data(anolis.tree)
 data(anolis.data)

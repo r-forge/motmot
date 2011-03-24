@@ -19,26 +19,18 @@ a logical specififying whether each rate category should have its own mean (\cod
 or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) 
 for a discussion on the impact of assumptions about mean on rate estimates.  }
 }
-\details{
-}
+
 \value{
 Returns a function to be passed to \code{optim.likRatePhylo}
 }
-\references{
-}
+
 \author{
 Gavin Thomas}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-}
+
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

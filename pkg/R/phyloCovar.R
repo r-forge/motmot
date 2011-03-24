@@ -1,4 +1,4 @@
-phyloCovar <- function(x, phy) {
+phyloCovar <- function(x, phy, estimator="unbiased") {
 		
 		if (is.matrix(x)==FALSE) { stop("Trait data must be a matrix with taxon names as row names")}
 		
@@ -17,10 +17,19 @@ phyloCovar <- function(x, phy) {
 			
 		brCov <- matrix(NA, nrow=ncol(x), ncol=ncol(x))
 		
+	if (estimator=="unbiased") {
 		for (i in 1:ncol(x)) {
 			for (k in 1:ncol(x)) {	
 				brCov[k,i] <- brCov[i,k] <- crossprod(rawContrasts[,k]/sqrt(rawVariances), rawContrasts[,i]/sqrt(rawVariances)) / (n-1)
 								}}
+	}
+	
+	if (estimator=="ML") {
+		for (i in 1:ncol(x)) {
+			for (k in 1:ncol(x)) {	
+				brCov[k,i] <- brCov[i,k] <- crossprod(rawContrasts[,k]/sqrt(rawVariances), rawContrasts[,i]/sqrt(rawVariances)) / (n)
+			}}
+	}
 		
 		return(brCov)
 		}

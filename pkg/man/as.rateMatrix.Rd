@@ -20,9 +20,7 @@ The explanatory (discrete) variable used to define the hypothesised rate categor
   \item{data}{
 A data frame containing (minimally) the x variable as a column with species names as rownames.}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 
 \item{rateMatrix }{An object of class "rateMatrix" - a list of matrices describing the expected 
@@ -37,15 +35,11 @@ mode on phenotypic diversification rates in shorebirds. Proceedings of the Royal
 }
 \author{
 Gavin Thomas}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 ## Read in phylogeny and data from Thomas et al. (2009)
 data(anolis.tree)

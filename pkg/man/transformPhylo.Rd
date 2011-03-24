@@ -7,7 +7,7 @@ Phylogenetic tree transformations
 \description{
 Transforms the branch lengths of a phylo object according to a model of trait evolution (see details).}
 \usage{
-transformPhylo(phy, model = NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha=NULL, psi=NULL, nodeIDs = NULL, rateType=NULL, branchRates=NULL, cladeRates = NULL)
+transformPhylo(phy, model = NULL, meserr=NULL, y=NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha=NULL, psi=NULL, nodeIDs = NULL, rateType=NULL, branchRates=NULL, cladeRates = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,6 +16,10 @@ An object of class "phylo" (see ape package).
 }
  \item{model}{
 The model of trait evolution (see details).}
+  \item{meserr}{
+A vector (or matrix) of measurement error for each tip. This is only applicable to univariate analyses.}
+\item{y}{
+A matrix of trait values.}
   \item{kappa}{
 Value of kappa transform.}
   \item{lambda}{
@@ -75,15 +79,11 @@ Pagel M. 1999 Inferring the historical patterns of biological evolution. Nature 
 Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: novel environments and island effects. Evolution 63, 2017-2030.}
 \author{
 Gavin Thomas}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 
 # Apply delta transform to anolis tree

@@ -23,9 +23,7 @@ Maximum value for the rate parameters}
   \item{common.mean}{
 a logical specififying whether each rate category should have its own mean (\code{common.mean=FALSE}) or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) for a discussion on the impact of assumptions about mean on rate estimates. }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 \item{MLRate }{Maximum likelihood estimates of the rate parameters}
 \item{Max.lik }{Maximum (log) likeihood}
@@ -40,15 +38,11 @@ Thomas GH, Freckleton RP, & Szekely T. 2006. Comparative analyses of the influen
 Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: novel environments and island effects. Evolution 63, 2017-2030.}
 \author{
 Gavin Thomas}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 
 data(anolis.tree)

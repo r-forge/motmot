@@ -43,15 +43,11 @@ Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: 
 \author{
 Gavin Thomas
 }
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 data(anolis.tree)
 data(anolis.data)

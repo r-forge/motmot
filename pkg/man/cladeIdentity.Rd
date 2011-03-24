@@ -24,21 +24,10 @@ The function returns a matrix of unique presences given the selected node. If th
 \item{matrix }{Matrix of unique presences for each node id}
 
 }
-\references{
-}
+
 \author{
 Gavin Thomas}
-\note{
-%%  ~~further notes~~
-}
 
-
-\seealso{
-}
-\examples{
-
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }

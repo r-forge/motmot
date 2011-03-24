@@ -7,9 +7,9 @@ Maximum likelhood for models of trait evoluion.}
 Fits likelihood models for various models of continuous character evolution. Model fitting is based on maximum-likelihood evaluation using phylogenetically independent contrasts. This is exactly equivalent to, but substantially faster than, GLS approaches.
 }
 \usage{
-transformPhylo.ML(y, phy, model = NULL, modelCIs = TRUE, nodeIDs = NULL, 
+transformPhylo.ML(y, phy, model = NULL, meserr=NULL, modelCIs = TRUE, nodeIDs = NULL, 
     rateType = NULL, minCladeSize = 1, nSplits = 10, restrictNode = NULL, 
-    lowerBound = NULL, upperBound = NULL)
+    lowerBound = NULL, upperBound = NULL, tol=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,6 +22,8 @@ An object of class "phylo" (see ape package).
   \item{model}{
 The model of trait evolution (see details).
 }
+  \item{meserr}{
+A vector (or matrix) of measurement error for each tip. This is only applicable to univariate analyses.}
   \item{modelCIs}{
 Logical - estimate confidence intervals for parameter estimates.
 }
@@ -42,6 +44,8 @@ List defining monophyletic groups within which no further rate shifts are search
 Minimum value for parameter estimates}
   \item{upperBound}{
 Maximum value for parameter estimates}
+  \item{tol}{
+Tolerance (minimum branch length) to exclude branches from trait MEDUSA search. Primarily intended to prevent inference of rate shifts at randomly resolved polytomies. }
 
 }
 \details{

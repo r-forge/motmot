@@ -1,37 +1,37 @@
-transformPhylo.ll <- function(y, phy, model=NULL, kappa=NULL, lambda=NULL, delta=NULL, alpha=NULL, psi=NULL, nodeIDs=NULL, rateType=NULL, branchRates=NULL, cladeRates=NULL) {
+transformPhylo.ll <- function(y=NULL, phy, model=NULL, meserr=NULL, kappa=NULL, lambda=NULL, delta=NULL, alpha=NULL, psi=NULL, nodeIDs=NULL, rateType=NULL, branchRates=NULL, cladeRates=NULL) {
 	
 	switch(model,		  
 		   
 		   "bm" = {
-					transformPhy <- phy
+					transformPhy <- transformPhylo(phy=phy, model="bm", meserr=meserr, y=y)
 					},
 		   
 		   "kappa" = {
-					transformPhy <- transformPhylo(phy=phy, model="kappa", kappa=kappa)
+					transformPhy <- transformPhylo(phy=phy, model="kappa", kappa=kappa, meserr=meserr, y=y)
 					},
 		   
 		   "lambda" = {
-					transformPhy <- transformPhylo(phy=phy, model="lambda", lambda=lambda)
+					transformPhy <- transformPhylo(phy=phy, model="lambda", lambda=lambda, meserr=meserr, y=y)
 					},
 		   
 		   "delta" = {
-					transformPhy <- transformPhylo(phy=phy, model="delta", delta=delta)
+					transformPhy <- transformPhylo(phy=phy, model="delta", delta=delta, meserr=meserr, y=y)
 					},
 					
 		   "free" = {
-					transformPhy <- transformPhylo(phy=phy, model="free", branchRates=branchRates)
+					transformPhy <- transformPhylo(phy=phy, model="free", branchRates=branchRates, meserr=meserr, y=y)
 					},
 		   
 		   "clade" = {
-					transformPhy <- transformPhylo(phy=phy, model="clade", nodeIDs=nodeIDs, cladeRates=cladeRates, rateType=rateType)
+					transformPhy <- transformPhylo(phy=phy, model="clade", nodeIDs=nodeIDs, cladeRates=cladeRates, rateType=rateType, meserr=meserr, y=y)
 					},
 		   
 		   "OU" = {
-					transformPhy <- transformPhylo(phy=phy, model="OU", alpha=alpha)
+					transformPhy <- transformPhylo(phy=phy, model="OU", alpha=alpha, meserr=meserr, y=y)
 					},
 		   
 		   "psi" = {
-					transformPhy <- transformPhylo(phy=phy, model="psi", psi=psi)
+					transformPhy <- transformPhylo(phy=phy, model="psi", psi=psi, meserr=meserr, y=y)
 					}
 		   
 		   )

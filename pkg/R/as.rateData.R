@@ -1,9 +1,10 @@
 as.rateData <-
-function(y, x, rateMatrix=NULL, phy, data) {
+function(y, x, rateMatrix=NULL, phy, data, meserr=NULL) {
 		
 		if (is.null(rateMatrix))	{ rateMatrix <- as.rateMatrix(phy=phy, x=x, data=data) } else { rateMatrix <- rateMatrix }
 		
-		dat <- data.frame(x, y, row.names = rownames(data))
+		if (is.null(meserr)) { dat <- data.frame(x, y, row.names = rownames(data)) }
+		if (is.null(meserr)==FALSE) { dat <- data.frame(x, y, meserr, row.names = rownames(data)) }
 	
 		if(sum(sort(rownames(dat)) != sort(rownames(rateMatrix[[1]]))) > 0){warning("Length or names of phenotypic and of phylogenetic data do not match - non-matching taxa will be dropped")}	# check names
 
@@ -33,7 +34,11 @@ function(y, x, rateMatrix=NULL, phy, data) {
 			x <- as.matrix(dat$x)
 			y <- dat$y[idx]
 			x <- x[idx, ]
-			traits <- list(y = y, x = x, Vmat = Vmat)
+			if (is.null(meserr)) {traits <- list(y = y, x = x, Vmat = Vmat, meserr=NULL)}
+			if (is.null(meserr)==FALSE) { meserr <- dat$meserr[idx]
+				traits <- list(y = y, x = x, Vmat = Vmat, meserr=meserr)}
+	
+	
 			class(traits) <- "rateData"
 			return(traits)
 			}

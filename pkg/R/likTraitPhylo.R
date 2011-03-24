@@ -1,4 +1,4 @@
-likTraitPhylo <- function(y, phy) {
+likTraitPhylo <- function(y, phy, meserr=NULL) {
 		if (is.matrix(y)==FALSE) { stop("Trait data must be a matrix with taxon names as row names")}
 		
 		n <- length(phy$tip.label)

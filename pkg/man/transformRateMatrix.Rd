@@ -18,8 +18,7 @@ an object of class "rateData"
 a vector of relative rate parameters. The length of the vector is equal to the number of rates 
 being estimated. If \code{rate=NULL} then rates are equal.}
 }
-\details{
-}
+
 \value{
 
 \item{retMat }{Rate-transformed variance covariance matrix}
@@ -34,15 +33,11 @@ Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: 
 and island effects. Evolution 63, 2017-2030.}
 \author{
 Gavin Thomas}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 
 data(anolis.tree)

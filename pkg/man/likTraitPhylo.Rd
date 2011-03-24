@@ -8,7 +8,7 @@ Log-likelihood rate estimation for traits and phylogenies
 This function calculates the log-likelihood and Brownian (co)variance for a trait(s) 
 and a phylogeny using phylogenetically independent contrasts.}
 \usage{
-likTraitPhylo(y, phy)
+likTraitPhylo(y, phy, meserr=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,6 +16,9 @@ likTraitPhylo(y, phy)
 A matrix of trait data. Rownames must be included and match the taxon names in the phylogeny. Can accept single traits (calculates variance) or multiple traits (calculates variance-covariance matrix). }
   \item{phy}{
 An object of class "phylo" (see ape package).}
+
+  \item{meserr}{
+A vector (or matrix) of measurement error for each tip. This is only applicable to univariate analyses.}
 }
 \details{
 The "phylo" object must be rooted and fully dichotomous.}
@@ -34,14 +37,11 @@ Freckleton RP & Jetz W. 2009. Space versus phylogeny: disentangling phylogenetic
 }
 \author{
 Gavin Thomas, Rob Freckleton}
-\note{
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 
 # Data and phylogeny

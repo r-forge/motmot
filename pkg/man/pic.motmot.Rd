@@ -32,15 +32,11 @@ Felsenstein J. 1985. Phylogenies and the comparative method. American Naturalist
 }
 \author{
 Gavin Thomas, Rob Freckleton, Emmanuel Paradis}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 
 # Data and phylogeny

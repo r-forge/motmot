@@ -15,7 +15,15 @@ transformRateMatrix <- function(rateData, rate=NULL) {
 			   rateMats[[i]] <- rate[i] * V[[i]]  
 			   retMat <- retMat + rateMats[[i]]
 					}
-					
+				
+		
+			meserr <- rateData$meserr
+	
+		if(is.null(meserr) == FALSE) { 
+			y <- rateData$y
+			 diag(retMat) <- diag(retMat) + (meserr^2) / (var(y)/max(retMat)) }
+
+			
 			retMat <-  retMat
 	
 	

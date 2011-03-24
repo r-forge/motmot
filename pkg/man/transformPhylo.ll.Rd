@@ -7,7 +7,7 @@ Log-likelhood for models of trait evoluion.
 \description{
 Fits likelihood models for various models of continuous character evolution.}
 \usage{
-transformPhylo.ll(y, phy, model = NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha = NULL, psi=NULL, nodeIDs = NULL, rateType = NULL, branchRates = NULL, cladeRates = NULL)
+transformPhylo.ll(y, phy, model = NULL, meserr=NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha = NULL, psi=NULL, nodeIDs = NULL, rateType = NULL, branchRates = NULL, cladeRates = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,6 +19,8 @@ An object of class "phylo" (see ape package).
 }
  \item{model}{
 The model of trait evolution (see details).}
+  \item{meserr}{
+A vector (or matrix) of measurement error for each tip. This is only applicable to univariate analyses.}
   \item{kappa}{
 Value of kappa transform.}
   \item{lambda}{
@@ -87,15 +89,11 @@ Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: 
 }
 \author{
 Gavin Thomas}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 # Data and phylogeny
 data(anolis.tree)

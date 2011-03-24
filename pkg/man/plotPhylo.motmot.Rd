@@ -93,9 +93,7 @@ plotPhylo.motmot(phy, x=NULL, traitMedusaObject=NULL, reconType="rates", type = 
     recycled (see examples).} 
 
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 
 Returns a data frame of colours used in plot along with rate (or ancestral state) range for each colour. 

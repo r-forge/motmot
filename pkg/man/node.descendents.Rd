@@ -28,23 +28,13 @@ This function is stolen from the clade.members function in the CAIC package but 
 \value{
 Returns a vector of node and tip ids descended from the tip(s) "x". If tip.labels=TRUE then returns a list of node ids and tip labels.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Gavin Thomas, David Orme}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }

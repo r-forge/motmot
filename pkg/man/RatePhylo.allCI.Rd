@@ -35,9 +35,7 @@ a logical specififying whether each rate category should have its own mean
 (\code{common.mean=FALSE}) or all categories should have the same mean (\code{common.mean=FALSE}). 
 See Thomas et al. (2009) for a discussion on the impact of assumptions about mean on rate estimates.}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 \item{rateLci }{Lower confidence interval for rate estimate}
 \item{rateUci }{Upper confidence interval for rate estimate}
@@ -51,15 +49,11 @@ Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: 
 and island effects. Evolution 63, 2017-2030.}
 \author{
 Gavin Thomas, Rob Freckleton}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 
 data(anolis.tree)

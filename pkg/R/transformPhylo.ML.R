@@ -1,4 +1,4 @@
-transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, rateType=NULL, minCladeSize=1, nSplits=10, restrictNode=NULL, lowerBound=NULL, upperBound=NULL, tol=NULL){
+transformPhylo.ML <- function(y, phy, model=NULL, meserr=NULL, modelCIs=TRUE, nodeIDs=NULL, rateType=NULL, minCladeSize=1, nSplits=10, restrictNode=NULL, lowerBound=NULL, upperBound=NULL, tol=NULL){
 	
 	
 	bounds <- matrix(c(1e-8,1,1e-8,1,1e-8,5,1e-8,20,0,1,1e-8,1000), 6, 2, byrow=TRUE)
@@ -7,6 +7,7 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 	switch(model,
 		   
 		   "bm" = {
+					phy <- transformPhylo(phy=phy, model="bm", meserr=meserr, y=y)		
 					out <- likTraitPhylo(y, phy)
 					names(out) <- c("brownianVariance","logLikelihood")
 					},
@@ -15,14 +16,14 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					kappa <- 1
 					if (is.null(lowerBound)) { lowerBound <- bounds["kappa", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["kappa", 2] }
-					var.funkappa <- function(kappa) { return(transformPhylo.ll(y, phy, kappa, model="kappa")[[2]])}
+					var.funkappa <- function(kappa) { return(transformPhylo.ll(y, phy, kappa, model="kappa", meserr=meserr)[[2]])}
 					#vo <- optimise(var.funkappa, interval=c(lowerBound, upperBound), maximum=TRUE)
 					vo <- optim(kappa, var.funkappa, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
 
 					if (modelCIs==TRUE) {
 		   
 						foo <- function(param) {
-							ll <- transformPhylo.ll(y, phy, model="kappa", kappa=param)$logLikelihood
+							ll <- transformPhylo.ll(y, phy, model="kappa", kappa=param, meserr=meserr)$logLikelihood
 							return(ll - vo$value + 1.92)
 							}
 		   
@@ -63,14 +64,14 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					lambda <- 1
 					if (is.null(lowerBound)) { lowerBound <- bounds["lambda", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["lambda", 2] }
-					var.funlambda <- function(lambda) { return(transformPhylo.ll(y=y, phy=phy, lambda=lambda, model="lambda")[[2]])}
+					var.funlambda <- function(lambda) { return(transformPhylo.ll(y=y, phy=phy, lambda=lambda, model="lambda", meserr=meserr)[[2]])}
 					#vo <- optimise(var.funlambda, interval=bounds["lambda",], maximum=TRUE)
 					vo <- optim(lambda, var.funlambda, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
 
 					if (modelCIs==TRUE) {
 		   
 						foo <- function(param) {
-							ll <- transformPhylo.ll(y, phy, model="lambda", lambda=param)$logLikelihood
+							ll <- transformPhylo.ll(y, phy, model="lambda", lambda=param, meserr=meserr)$logLikelihood
 							return(ll - vo$value + 1.92)
 							}
 		   
@@ -111,14 +112,14 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					delta <- 1
 					if (is.null(lowerBound)) { lowerBound <- bounds["delta", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["delta", 2] }
-					var.fundelta <- function(delta) { return(transformPhylo.ll(y=y, phy=phy, delta=delta, model="delta")[[2]])}
+					var.fundelta <- function(delta) { return(transformPhylo.ll(y=y, phy=phy, delta=delta, model="delta", meserr=meserr)[[2]])}
 					#vo <- optimise(var.fundelta, interval=bounds["delta",], maximum=TRUE)
 					vo <- optim(delta, var.fundelta, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
 
 					if (modelCIs==TRUE) {
 		   
 						foo <- function(param) {
-							ll <- transformPhylo.ll(y, phy, model="delta", delta=param)$logLikelihood
+							ll <- transformPhylo.ll(y, phy, model="delta", delta=param, meserr=meserr)$logLikelihood
 							return(ll - vo$value + 1.92)
 							}
 		   
@@ -159,14 +160,14 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					alpha <- 0.01
 					if (is.null(lowerBound)) { lowerBound <- bounds["alpha", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["alpha", 2] }
-					var.funOU <- function(alpha) { return(transformPhylo.ll(y=y, phy=phy, alpha=alpha, model="OU")[[2]])}
+					var.funOU <- function(alpha) { return(transformPhylo.ll(y=y, phy=phy, alpha=alpha, model="OU", meserr=meserr)[[2]])}
 					#vo <- optimise(var.funOU, interval=bounds["alpha",], maximum=TRUE)
 					vo <- optim(alpha, var.funOU, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
 
 					if (modelCIs==TRUE) {
 		   
 						foo <- function(param) {
-							ll <- transformPhylo.ll(y, phy, model="OU", alpha=param)$logLikelihood
+							ll <- transformPhylo.ll(y, phy, model="OU", alpha=param, meserr=meserr)$logLikelihood
 							return(ll - vo$value + 1.92)
 							}
 		   
@@ -208,14 +209,14 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					psi <- 1
 					if (is.null(lowerBound)) { lowerBound <- bounds["psi", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["psi", 2] }
-					var.funpsi <- function(psi) { return(transformPhylo.ll(y=y, phy=phy, psi=psi, model="psi")[[2]])}
+					var.funpsi <- function(psi) { return(transformPhylo.ll(y=y, phy=phy, psi=psi, model="psi", meserr=meserr)[[2]])}
 					#vo <- optimise(var.funpsi, interval=bounds["psi",], maximum=TRUE)
 					vo <- optim(psi, var.funpsi, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
 
 					if (modelCIs==TRUE) {
 		   
 					foo <- function(param) {
-						ll <- transformPhylo.ll(y, phy, model="psi", psi=param)$logLikelihood
+						ll <- transformPhylo.ll(y, phy, model="psi", psi=param, meserr=meserr)$logLikelihood
 						return(ll - vo$value + 1.92)
 						}
 		   
@@ -256,7 +257,7 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					if (is.null(lowerBound)) { lowerBound <- bounds["rate", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["rate", 2] }
 					branchRates <- rep(1,length(phy$edge.length))
-					var.funfree <- function(branchRates) { return(transformPhylo.ll(y, phy, branchRates=branchRates, model="free")[[2]])}
+					var.funfree <- function(branchRates) { return(transformPhylo.ll(y, phy, branchRates=branchRates, model="free", meserr=meserr)[[2]])}
 					vo <- optim(branchRates, var.funfree, method="L-BFGS-B", lower=0, control=c(fnscale=-1, maxit=10, factr=1e14))
 		   
 					phy2 <- phy
@@ -265,7 +266,7 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					out <- vector(mode="list", length=3)
 					names(out) <- c("MaximumLikelihood", "Rates", "Convergence")
 		   
-					out$MaximumLikelihood <- transformPhylo.ML(dat, phy=phy2, model="bm")[[2]]
+					out$MaximumLikelihood <- transformPhylo.ML(y, phy=phy2, model="bm", meserr=meserr)[[2]]
 					out$Rates <- vo$par
 					if (vo$convergence==0) { out$Convergence <- "Successful" } else { out$Convergence <- "Failed"}
 		   
@@ -276,18 +277,18 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 					if (is.null(lowerBound)) { lowerBound <- bounds["rate", 1] }
 					if (is.null(upperBound)) { upperBound <- bounds["rate", 2] }
 					cladeRates <- rep(1,length(nodeIDs))
-					var.funclade <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=nodeIDs, cladeRates=cladeRates, model="clade", rateType=rateType)[[2]])}
+					var.funclade <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=nodeIDs, cladeRates=cladeRates, model="clade", rateType=rateType, meserr=meserr)[[2]])}
 					vo <- optim(cladeRates, var.funclade, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
 					
 		   		   
 					if (modelCIs==TRUE) {
 		   
 					foo <- function(param) {
-						ll <- transformPhylo.ll(y, phyClade, model="clade", nodeIDs=SingleNode, rateType=whichRateType, cladeRates=param)$logLikelihood
+						ll <- transformPhylo.ll(y, phyClade, model="clade", nodeIDs=SingleNode, rateType=whichRateType, cladeRates=param, meserr=meserr)$logLikelihood
 						return(ll - vo$value + 1.92)
 						}
 		   
-					phyClade <- transformPhylo(phy, model="clade", nodeIDs=nodeIDs, rateType=rateType, cladeRates=vo$par)
+					phyClade <- transformPhylo(phy, model="clade", nodeIDs=nodeIDs, rateType=rateType, cladeRates=vo$par, meserr=meserr, y=y)
 		   
 					out <- vector(mode="list", length=2)
 					names(out) <- c("MaximumLikelihood", "Rates")
@@ -301,7 +302,7 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 		   
 							SingleNode <- nodeIDs[i]
 							whichRateType <- rateType[i]
-							phyClade <- transformPhylo(phyClade, model="clade", nodeIDs=SingleNode, rateType=whichRateType, cladeRates=1/vo$par[i])
+							phyClade <- transformPhylo(phyClade, model="clade", nodeIDs=SingleNode, rateType=whichRateType, cladeRates=1/vo$par[i], meserr=meserr, y=y)
 				
 							if(foo(lowerBound) < 0) { 
 								LCI <- uniroot(foo, interval = c(lowerBound, vo$par[i]))$root 
@@ -376,7 +377,7 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 							if (k == 1) { currentNodeIDs <- i } else { currentNodeIDs <- c(bestNodes, i) }
 		   
 							cladeRates <- rep(1,length(currentNodeIDs))
-							var.funclade <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=currentNodeIDs, rateType=rep("clade", length(currentNodeIDs)), cladeRates=cladeRates, model="clade")[[2]])}
+							var.funclade <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=currentNodeIDs, rateType=rep("clade", length(currentNodeIDs)), cladeRates=cladeRates, model="clade", meserr=meserr)[[2]])}
 		   
 							currentCladeModel <- optim(cladeRates, var.funclade, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
 		   
@@ -503,7 +504,7 @@ transformPhylo.ML <- function(y, phy, model=NULL, modelCIs=TRUE, nodeIDs=NULL, r
 
 		   
 							cladeRates <- rep(1,length(currentNodeIDs))
-							var.funclade <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=currentNodeIDs, rateType=currentRateType, cladeRates=cladeRates, model="clade")[[2]])}
+							var.funclade <- function(cladeRates) { return(transformPhylo.ll(y, phy, nodeIDs=currentNodeIDs, rateType=currentRateType, cladeRates=cladeRates, model="clade", meserr=meserr)[[2]])}
 		   
 							currentCladeModel <- optim(cladeRates, var.funclade, method="L-BFGS-B", lower=lowerBound, upper=upperBound, control=c(fnscale=-1))
 		   

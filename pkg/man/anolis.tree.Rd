@@ -23,9 +23,7 @@ by island lizards. J. Biogeography 32, 929-938.
 
 Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: novel environments
 and island effects. Evolution 63, 2017-2030.}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
+
 \examples{
 data(anolis.tree)
 plot(anolis.tree)

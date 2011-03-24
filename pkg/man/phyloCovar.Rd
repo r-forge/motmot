@@ -7,7 +7,7 @@ Calculation of Brownian (co)variance using independent contrasts.
 \description{
 Calculates the Brownian variance (single trait) or variance-covariance matrix (mutliple traits) using phylogenetically independent contrasts.}
 \usage{
-phyloCovar(x, phy)
+phyloCovar(x, phy, estimator = "unbiased")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,10 +17,11 @@ A continuous trait
   \item{phy}{
 An object of class "phylo" (see ape package).
 }
+  \item{estimator}{
+Should Brownian variance (or covariance) be based on the unbiased ("unbiased" - default) or maximum likelihood ("ML") estimator.
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
 }
+
 \value{
 
   \item{brownianVariance }{Brownian variance (or covariance for multiple traits) given the data and phylogeny}
@@ -35,15 +36,11 @@ Freckleton RP & Jetz W. 2009. Space versus phylogeny: disentangling phylogenetic
 \author{
 Gavin Thomas, Rob Freckleton
 }
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 # Data and phylogeny
 data(anolis.tree)

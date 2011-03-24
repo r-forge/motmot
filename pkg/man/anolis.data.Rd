@@ -19,14 +19,11 @@ Anolis data set from Thomas et al. (2009)}
     \item{\code{Male_SVL}}{a numeric vector of male snout vent length}
   }
 }
-\details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-}
+
 \source{
 Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: novel environments 
 and island effects. Evolution 63, 2017-2030.}
-\references{
-}
+
 \examples{
 data(anolis.data)
 }

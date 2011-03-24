@@ -55,9 +55,7 @@ a vector of relative rate parameters. The length of the vector is equal to the n
 a vector of the relative difference in means between rate categories, expressed as a scalar applied 
 to the expected standard deviation (see Ricklefs 2006)}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 Returns a matrix of simulated dated with taxon names as rownames (number of columns=n).
 }

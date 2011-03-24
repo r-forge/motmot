@@ -17,7 +17,7 @@ of interest to be fitted to the same phylogeny and set of reconstructed ancestra
 }
 
 \usage{
-as.rateData(y, x, rateMatrix = NULL, phy, data)
+as.rateData(y, x, rateMatrix = NULL, phy, data, meserr=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,9 +32,10 @@ An object of class "phylo" (see ape package).}
   \item{data}{
 A data frame containing (minimally) the x and y variables as columns with species names as 
 rownames.}
+  \item{meserr}{
+Measurement error (should be a column in the data frame).}
 }
-\details{
-More detail here}
+
 \value{
 
 \item{rateData }{An object of class "rateData" which is a list containing the response (y) and 
@@ -46,15 +47,11 @@ Thomas GH, Meiri S, & Phillimore AB. 2009. Body size diversification in Anolis: 
 and island effects. Evolution 63, 2017-2030.}
 \author{
 Gavin Thomas}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 
 ## Read in phylogeny and data from Thomas et al. (2009)
