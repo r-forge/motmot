@@ -54,7 +54,7 @@ function(phy, x, data) {
 				state.edge <- x.anc * phy$edge.length
 				state.phy <- list(edge=phy$edge, edge.length=state.edge, Nnode=phy$Nnode, tip.label=phy$tip.label)
 				class(state.phy) <- "phylo"
-			state.matrix <- vcv.array(state.phy)
+			state.matrix <- VCV.array(state.phy)
 			class(state.matrix) <- "matrix"
 			rateMatrix[[i]] <- state.matrix
 		}		

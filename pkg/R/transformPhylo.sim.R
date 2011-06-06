@@ -4,7 +4,7 @@ transformPhylo.sim <- function(phy, n=1, x=NULL, model=NULL, kappa=NULL, lambda=
 		   
 		   "bm" = {
 					transformPhy <- phy
-					phyMat <- vcv.array(transformPhy)
+					phyMat <- VCV.array(transformPhy)
 					attr(phyMat, "class") <- "matrix"
 					ydum <- as.matrix(t(rmvnorm(n, sigma = phyMat)))
 					rownames(ydum) <- rownames(phyMat)
@@ -12,7 +12,7 @@ transformPhylo.sim <- function(phy, n=1, x=NULL, model=NULL, kappa=NULL, lambda=
 		   
 		   "kappa" = {
 					transformPhy <- transformPhylo(phy=phy, model="kappa", kappa=kappa)
-					phyMat <- vcv.array(transformPhy)
+					phyMat <- VCV.array(transformPhy)
 					attr(phyMat, "class") <- "matrix"
 					ydum <- as.matrix(t(rmvnorm(n, sigma = phyMat)))
 					rownames(ydum) <- rownames(phyMat)
@@ -20,7 +20,7 @@ transformPhylo.sim <- function(phy, n=1, x=NULL, model=NULL, kappa=NULL, lambda=
 		   
 		   "lambda" = {
 					transformPhy <- transformPhylo(phy=phy, model="lambda", lambda=lambda)
-					phyMat <- vcv.array(transformPhy)
+					phyMat <- VCV.array(transformPhy)
 					attr(phyMat, "class") <- "matrix"
 					ydum <- as.matrix(t(rmvnorm(n, sigma = phyMat)))
 					rownames(ydum) <- rownames(phyMat)
@@ -28,7 +28,7 @@ transformPhylo.sim <- function(phy, n=1, x=NULL, model=NULL, kappa=NULL, lambda=
 		   
 		   "delta" = {
 					transformPhy <- transformPhylo(phy=phy, model="delta", delta=delta)
-					phyMat <- vcv.array(transformPhy)
+					phyMat <- VCV.array(transformPhy)
 					attr(phyMat, "class") <- "matrix"
 					ydum <- as.matrix(t(rmvnorm(n, sigma = phyMat)))
 					rownames(ydum) <- rownames(phyMat)
@@ -36,7 +36,7 @@ transformPhylo.sim <- function(phy, n=1, x=NULL, model=NULL, kappa=NULL, lambda=
 					
 		   "free" = {
 					transformPhy <- transformPhylo(phy=phy, model="free", branchRates=branchRates)
-					phyMat <- vcv.array(transformPhy)
+					phyMat <- VCV.array(transformPhy)
 					attr(phyMat, "class") <- "matrix"
 					ydum <- as.matrix(t(rmvnorm(n, sigma = phyMat)))
 					rownames(ydum) <- rownames(phyMat)		
@@ -44,7 +44,7 @@ transformPhylo.sim <- function(phy, n=1, x=NULL, model=NULL, kappa=NULL, lambda=
 		   
 		   "clade" = {
 					transformPhy <- transformPhylo(phy=phy, model="clade", nodeIDs=nodeIDs, cladeRates=cladeRates, rateType=rateType)
-					phyMat <- vcv.array(transformPhy)
+					phyMat <- VCV.array(transformPhy)
 					attr(phyMat, "class") <- "matrix"
 					ydum <- as.matrix(t(rmvnorm(n, sigma = phyMat)))
 					rownames(ydum) <- rownames(phyMat)
@@ -52,14 +52,14 @@ transformPhylo.sim <- function(phy, n=1, x=NULL, model=NULL, kappa=NULL, lambda=
 		   
 		   "OU" = {
 					transformPhy <- transformPhylo(phy=phy, model="OU", alpha=alpha)
-					phyMat <- vcv.array(transformPhy)
+					phyMat <- VCV.array(transformPhy)
 					attr(phyMat, "class") <- "matrix"
 					ydum <- as.matrix(t(rmvnorm(n, sigma = phyMat)))
 					rownames(ydum) <- rownames(phyMat)
 					},
 		   "psi" = {
 					transformPhy <- transformPhylo(phy=phy, model="psi", psi=psi)
-					phyMat <- vcv.array(transformPhy)
+					phyMat <- VCV.array(transformPhy)
 					attr(phyMat, "class") <- "matrix"
 					ydum <- as.matrix(t(rmvnorm(n, sigma = phyMat)))
 					rownames(ydum) <- rownames(phyMat)
