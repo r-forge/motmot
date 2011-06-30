@@ -61,7 +61,8 @@ rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
 # position one in the fixed vector, group 1 (large island trunk crown and trunk ground) takes 
 # position 2 and so on. The default is to allow each group to take a different mean. 
 
-optim.likRatePhylo(anolis.rateData, rate=NULL, fixed=c(1,FALSE,FALSE, FALSE), common.mean=FALSE)
+# Not run
+# optim.likRatePhylo(anolis.rateData, rate=NULL, fixed=c(1,FALSE,FALSE, FALSE), common.mean=FALSE)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

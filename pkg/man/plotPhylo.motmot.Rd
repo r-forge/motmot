@@ -118,15 +118,16 @@ tree <- drop.tip(anolis.tree, names(attr(na.omit(anolisSVL), "na.action")))
 anolisSVL <- na.omit(anolisSVL)
 
 # Identify rate shifts and print and plot results with upto three rate shifts and minimum clade size of 20.
-anolisSVL_MEDUSA <- transformPhylo.ML(anolisSVL, phy=tree, model="tm1", minCladeSize=10, nSplits=2)
+# Not run
+# anolisSVL_MEDUSA <- transformPhylo.ML(anolisSVL, phy=tree, model="tm1", minCladeSize=10, nSplits=2)
 
-anolisSVL_MEDUSA_out <- traitMedusaSummary(anolisSVL_MEDUSA, cutoff=3, AICc=FALSE)
+# anolisSVL_MEDUSA_out <- traitMedusaSummary(anolisSVL_MEDUSA, cutoff=3, AICc=FALSE)
 
 # Plot rate shifts
-colours <- plotPhylo.motmot(phy=tree, traitMedusaObject = anolisSVL_MEDUSA_out,  reconType = "rates", type = "fan", cex=0.6, edge.width=3)
+# colours <- plotPhylo.motmot(phy=tree, traitMedusaObject = anolisSVL_MEDUSA_out,  reconType = "rates", type = "fan", cex=0.6, edge.width=3)
 
 # Plot pic ancestral state reconstruction for female SVL
-colours <- plotPhylo.motmot(phy=tree, x=anolisSVL[,1], palette="hotspot.colors", edge.width=4, cex=0.8, show.tip.label=TRUE, adj=0.5, label.offset=2, reconType="picReconstruction")
+# colours <- plotPhylo.motmot(phy=tree, x=anolisSVL[,1], palette="hotspot.colors", edge.width=4, cex=0.8, show.tip.label=TRUE, adj=0.5, label.offset=2, reconType="picReconstruction")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

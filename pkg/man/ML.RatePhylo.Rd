@@ -85,17 +85,20 @@ rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
 # fixed vector, group 1 (large island trunk crown and trunk ground) takes position 2 and so on. 
 # The default is to allow each group to take a different mean. 
 
-ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,FALSE, FALSE), pretty=TRUE)
+# Not run
+# ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,FALSE, FALSE), pretty=TRUE)
 
 
 # A different model, force small islands, large island other, and mainland to be 1 and only estimate
 # large island trunk crown and trunk ground 
-ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,1, 1), pretty=TRUE)
+# Not run
+# ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,1, 1), pretty=TRUE)
 
 
 # Run the same two models, but this time assuming a common mean across all four groups
-ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,FALSE, FALSE), pretty=TRUE, common.mean=TRUE)
-ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,1, 1), pretty=TRUE, common.mean=TRUE)
+# Not run
+# ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,FALSE, FALSE), pretty=TRUE, common.mean=TRUE)
+# ML.RatePhylo(anolis.rateData, fixed=c(1,FALSE,1, 1), pretty=TRUE, common.mean=TRUE)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

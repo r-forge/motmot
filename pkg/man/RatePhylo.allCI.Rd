@@ -72,25 +72,27 @@ rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
 # fixed vector, group 1 (large island trunk crown and trunk ground) takes position 2 and so on. The 
 # default is to allow each group to take a different mean. 
 
-anole.ML <- optim.likRatePhylo(rateData=anolis.rateData, rate=NULL, fixed=c(FALSE,FALSE,FALSE, FALSE),
-common.mean=FALSE) # ML estimates
+# Not run
+#anole.ML <- optim.likRatePhylo(rateData=anolis.rateData, rate=NULL, #fixed=c(FALSE,FALSE,FALSE, FALSE),
+#common.mean=FALSE) # ML estimates
 
 # Confidence intervals for each parameter in turn
-RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(FALSE, TRUE, TRUE, TRUE), 
-rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
+# Not run
+#RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(FALSE, #TRUE, TRUE, TRUE), 
+#rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
 
-RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, FALSE, TRUE, TRUE), 
-rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
+#RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, #FALSE, TRUE, TRUE), 
+#rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
 
-RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, TRUE, FALSE, TRUE), 
-rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
+#RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, #TRUE, FALSE, TRUE), 
+#rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
 
-RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, TRUE, FALSE, TRUE), 
-rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
+#RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, #TRUE, FALSE, TRUE), 
+#rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
 
 # All confidence intervals together
-RatePhylo.allCI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed = NULL, rateMIN = 0.001, 
-rateMAX = 50, common.mean = FALSE) 
+#RatePhylo.allCI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed = #NULL, rateMIN = 0.001, 
+#rateMAX = 50, common.mean = FALSE) 
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

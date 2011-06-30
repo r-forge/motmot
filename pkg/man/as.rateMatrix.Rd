@@ -46,7 +46,8 @@ data(anolis.tree)
 data(anolis.data)
 
 ## Convert data to class rateMatrix
-anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+# Not run
+# anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
 
 
 }

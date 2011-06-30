@@ -58,14 +58,16 @@ Gavin Thomas}
 data(anolis.tree)
 data(anolis.data)
 
-## Convert data to class rateData with a rateMatrix object as input
-anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
 
-anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
-rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)  
+# Not run
+## Convert data to class rateData with a rateMatrix object as input
+#anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+
+#anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
+#rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)  
 
 ## Convert data to class rateData with a phylo object as input 
-anolis.rateData <- as.rateData(y=anolis.data$Female_SVL, x=anolis.data$geo_ecomorph, 
-rateMatrix = NULL, phy=anolis.tree, data=anolis.data) 
+#anolis.rateData <- as.rateData(y=anolis.data$Female_SVL, x=anolis.data$geo_ecomorph, 
+#rateMatrix = NULL, phy=anolis.tree, data=anolis.data) 
 
 }

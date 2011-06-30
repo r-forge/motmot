@@ -62,9 +62,10 @@ tree <- drop.tip(anolis.tree, names(attr(na.omit(anolisSVL), "na.action")))
 anolisSVL <- na.omit(anolisSVL)
 
 # Identify rate shifts and print and plot results
-anolisSVL_MEDUSA <- transformPhylo.ML(anolisSVL, phy=tree, model="tm1", minCladeSize=20, nSplits=3)
+# Not run
+#anolisSVL_MEDUSA <- transformPhylo.ML(anolisSVL, phy=tree, model="tm1", minCladeSize=20, nSplits=3)
 
-anolisSVL_MEDUSA_out <- traitMedusaSummary(anolisSVL_MEDUSA)
+#anolisSVL_MEDUSA_out <- traitMedusaSummary(anolisSVL_MEDUSA)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
