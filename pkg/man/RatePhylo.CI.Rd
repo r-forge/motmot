@@ -81,17 +81,21 @@ rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
 # RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(FALSE, TRUE, TRUE, TRUE), 
 #rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
 
-# Not runRatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, FALSE, TRUE, TRUE), 
+# Not run
+#RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, FALSE, TRUE, TRUE), 
 #rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
 
-# Not runRatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, TRUE, FALSE, TRUE), 
+# Not run
+#RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, TRUE, FALSE, TRUE), 
 #rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
 
-# Not runRatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, TRUE, FALSE, TRUE), 
+# Not run
+#RatePhylo.CI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed=c(TRUE, TRUE, FALSE, TRUE), 
 #rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
 
 # All confidence intervals together
-# Not runRatePhylo.allCI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed = NULL, rateMIN = 0.001, 
+# Not run
+#RatePhylo.allCI(rateData=anolis.rateData, MLrate = anole.ML$MLRate, fixed = NULL, rateMIN = 0.001, 
 #rateMAX = 50, common.mean = FALSE) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
