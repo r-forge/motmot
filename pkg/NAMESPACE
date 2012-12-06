@@ -1,0 +1,16 @@
+export(as.rateData)
+export(as.rateMatrix)
+export()
+
+
+# Export names
+exportPattern("as.rateData","as.rateMatrix","likRatePhylo","ML.RatePhylo","plotPhylo.motmot","traitMedusaSummary","transformPhylo.ll","transformPhylo.ML","transformPhylo","transformPhylo.sim","transformRateMatrix","fairProportions","phyloMean","phyloVar","phyloCovar")
+
+# Import all packages listed as Imports or Depends
+import(
+  ape,
+  mvtnorm,
+  MASS,
+  caper,
+  laser
+)
