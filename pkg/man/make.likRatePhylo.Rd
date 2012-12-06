@@ -5,7 +5,7 @@ Internal function}
 \description{
 Internal function. Constructor to allow fixing of rate parameters. }
 \usage{
-make.likRatePhylo(rateData, fixed, common.mean = FALSE)
+make.likRatePhylo(rateData, fixed, common.mean = FALSE, lambda.est, meserr)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,8 +18,11 @@ results in a start value of 1, or a numeric start value) or should be fixed (\co
 a logical specififying whether each rate category should have its own mean (\code{common.mean=FALSE}) 
 or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) 
 for a discussion on the impact of assumptions about mean on rate estimates.  }
+  \item{lambda.est}{
+Logical - Logical. Fit Pagel's lambda.}
+  \item{meserr}{
+an object of class "rateData"}
 }
-
 \value{
 Returns a function to be passed to \code{optim.likRatePhylo}
 }

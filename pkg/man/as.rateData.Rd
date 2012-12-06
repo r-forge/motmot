@@ -17,14 +17,14 @@ of interest to be fitted to the same phylogeny and set of reconstructed ancestra
 }
 
 \usage{
-as.rateData(y, x, rateMatrix = NULL, phy, data, meserr=NULL)
+as.rateData(y, x, rateMatrix = NULL, phy, data, meserr.col=NULL, meserr.propn=NULL, log.y=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{y}{
-The response variable - typically a continuous trait.}
+The response variable - typically a continuous trait. Specified as a column name or index.}
   \item{x}{
-The explanatory (discrete) variable used to define the hypothesised rate categories.}
+The explanatory (discrete) variable used to define the hypothesised rate categories. Specified as a column name or index.}
   \item{rateMatrix}{
 An object of class "rateMatrix".}
   \item{phy}{
@@ -32,10 +32,13 @@ An object of class "phylo" (see ape package).}
   \item{data}{
 A data frame containing (minimally) the x and y variables as columns with species names as 
 rownames.}
-  \item{meserr}{
-Measurement error (should be a column in the data frame).}
+  \item{meserr.col}{
+Column name or index containing measurement error for species means.}
+  \item{meserr.propn}{
+Single value specifying the proportional measurement to be applied across all species.}
+\item{log.y}{
+Logical, natural log transform response variable.}
 }
-
 \value{
 
 \item{rateData }{An object of class "rateData" which is a list containing the response (y) and 
@@ -61,13 +64,13 @@ data(anolis.data)
 
 # Not run
 ## Convert data to class rateData with a rateMatrix object as input
-#anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+#anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x="geo_ecomorph", data=anolis.data)
 
-#anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
-#rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)  
+#anolis.rateData <- as.rateData(y="Female_SVL", x="geo_ecomorph", 
+#rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data, log.y=TRUE)  
 
 ## Convert data to class rateData with a phylo object as input 
-#anolis.rateData <- as.rateData(y=anolis.data$Female_SVL, x=anolis.data$geo_ecomorph, 
-#rateMatrix = NULL, phy=anolis.tree, data=anolis.data) 
+#anolis.rateData <- as.rateData(y="Female_SVL", x="geo_ecomorph", 
+#rateMatrix = NULL, phy=anolis.tree, data=anolis.data, log.y=TRUE) 
 
 }

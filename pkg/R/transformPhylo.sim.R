@@ -69,11 +69,14 @@ transformPhylo.sim <- function(phy, n=1, x=NULL, model=NULL, kappa=NULL, lambda=
 					
 					x <- as.matrix(x)
 					dat <- data.frame(x=x, y=rep(0, length(x[,1])))
+					ntip <- Ntip(phy)
 					
-					rateData <- as.rateData(y=dat$y, x=dat$x, rateMatrix = NULL, phy=phy, data=dat)
+					rateData <- as.rateData(y="y", x="x", rateMatrix = NULL, phy=phy, data=dat)
 		   
 					V <- transformRateMatrix(rateData, rate=rate)
-					expect.sd <- sqrt(mean(V[upper.tri(V)]))
+		   
+					# expect.sd <- sqrt(mean(V[upper.tri(V)])) #
+					expect.sd <- sqrt((1/ntip * sum(diag(V))) - ((1/ntip^2)*t(matrix(rep(1,ntip))) %*% V %*% matrix(rep(1,ntip))))
 		   
 					if (is.null(group.means)) {ydum <- as.matrix(t(rmvnorm(n, sigma =  (V) )))
 						rownames(ydum) <- rownames(V)} 

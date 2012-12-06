@@ -6,7 +6,7 @@ Identify branches (including tips) descended from a node (internal function).
 \description{
 Internal function to get presence absence of descendent branches from a vector of node numbers. The descendents include the branch leading to the focal node (i.e. node defines the stem group no crown group)}
 \usage{
-cladeIdentity(phy, nodeIDs)
+cladeIdentity(phy, nodeIDs, cladeMembersObj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -15,6 +15,8 @@ An object of class "phylo" (see ape package).
 }
   \item{nodeIDs}{
 Vector of node numbers (positive integers).}
+  \item{cladeMembersObj}{
+Matrix of clade membership}
 }
 \details{
 The function returns a matrix of unique presences given the selected node. If the selected nodes are nested then presences are only recorded for the least inclusive node.

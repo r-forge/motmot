@@ -8,7 +8,7 @@ Full function for maximum likelihood estimation of rate parameters and compariso
 model.}
 \usage{
 ML.RatePhylo(rateData, rate = NULL, fixed = NULL, pretty = TRUE, rateMIN = 0.001, rateMAX = 50, 
-common.mean = FALSE)
+common.mean = FALSE, lambda.est=TRUE, est.CI=FALSE, meserr=FALSE, file=NULL)
 }
 \arguments{
   \item{rateData}{
@@ -29,26 +29,36 @@ Maximum value for the rate parameters}
 a logical specififying whether each rate category should have its own mean (\code{common.mean=FALSE})
 or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) 
 for a discussion on the impact of assumptions about mean on rate estimates.  }
+  \item{lambda.est}{
+Logical. Estimate Pagel's lambda. }
+  \item{est.CI}{
+Logical. Estimate approximate confidence intervals for rate parameters.  }
+  \item{meserr}{
+Logical. Incorporate measurement error. }
+  \item{file}{
+File string for output. Only used if \code{pretty=TRUE}. }
 }
-
 \value{
 If \code{pretty=FALSE}, returns a list containing:
 \item{MLRate }{Maximum likelihood estimates of the rate parameters}
+\item{Lambda }{Maximum likelihood estimate of lambda}
 \item{LCI }{Approximate lower confidence intervals for rate}
 \item{UCI }{Approximate upper confidence intervals for rate parameters}
+\item{means }{Means for each category}
 \item{nParam }{Number of parameters in the model (how many means and rate categories)}
 \item{Max.lik }{Maximum (log) likeihood}
+\item{AIC }{AIC for maximum likelihood model}
+\item{AICc }{AICc for maximum likelihood model}
+\item{LambdaSingle }{Maximum likelihood estimate of lambda for the single rate model}
 \item{Lik1 }{Likelihood of the equivalent single rate model}
 \item{LR }{Likelihood ratio statistic of "Max.lik" vs "Lik1"}
 \item{P }{P values for the LR statistic}
 \item{df }{Degrees of freedom for the LR statistic}
-\item{AIC }{AIC for maximum likelihood model}
-\item{AICc }{AICc for maximum likelihood model}
 \item{AIC.rate1 }{AIC for single rate model}
 \item{AICc.rate1 }{AICc for single rate model}
-\item{means }{Means for each category}
 
-If \code{pretty=TRUE}, prints a nice version of the list to screen.
+
+If \code{pretty=TRUE}, prints a nice version of the list to screen. If \code{file} is specified the pretty output will be sent to file, not the console.
 
 
 }
@@ -73,10 +83,10 @@ data(anolis.tree)
 data(anolis.data)
 
 ## Convert data to class rateData with a rateMatrix object as input
-anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x="geo_ecomorph", data=anolis.data)
 
-anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
-rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
+anolis.rateData <- as.rateData(y="Female_SVL", x="geo_ecomorph", 
+rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data, log.y=TRUE)
 
 # A model with a different rate in each of the four groups. The 'fixed' command is used to determine
 # whether a particular rate is to be constrained or not. Use '1' to fix a group and 'FALSE' to show

@@ -3,25 +3,39 @@
 \title{
 Log-likelihood rate estimation for traits and phylogenies
 }
+
 \description{
 This function calculates the log-likelihood, phylogenetic mean, and Brownian variance for a trait 
 and a phylogeny transformed according to variation in relative rates. }
+
 \usage{
-likRatePhylo(rateData, rate = NULL, common.mean = FALSE)
+likRatePhylo(rateData, rate = NULL, common.mean = FALSE, lambda.est, lambda, meserr, sigmaScale)
 }
+
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+
   \item{rateData}{
 an object of class "rateData"}
+
   \item{rate}{
 a vector of relative rate parameters. The length of the vector is equal to the number of rates being
 estimated. If \code{rate=NULL} then rates are equal.}
-  \item{common.mean}{
-a logical specififying whether each rate category should have its own mean (\code{common.mean=FALSE})
+
+  \item{common.mean}{a logical specififying whether each rate category should have its own mean (\code{common.mean=FALSE})
 or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) 
 for a discussion on the impact of assumptions about mean on rate estimates.}
-}
 
+  \item{lambda.est}{
+Logical. Fit Pagel's lambda.}
+
+  \item{lambda}{
+Numeric value for lambda from 0-1. }
+  \item{meserr}{
+Logical. Include measurement error. }
+  \item{sigmaScale}{
+Scalar for measurement error relative to tree. }
+}
 \value{
 \item{ll }{log-likelihood of the model}
 \item{mu }{phylogenetically corrected mean(s)}
@@ -47,10 +61,10 @@ data(anolis.tree)
 data(anolis.data)
 
 ## Convert data to class rateData with a rateMatrix object as input
-anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x="geo_ecomorph", data=anolis.data)
 
-anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
-rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
+anolis.rateData <- as.rateData(y="Female_SVL", x="geo_ecomorph", 
+rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data, log.y=TRUE)
 
 ## Calculate phylogenetic mean, variance, log likelihood for a model where the first rate category 
 #  (small islands) takes position one in the rate vector, group 1 (large island trunk crown and trunk 

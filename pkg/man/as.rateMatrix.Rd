@@ -16,7 +16,8 @@ as.rateMatrix(phy, x, data)
   \item{phy}{
 An object of class "phylo" (see ape package).}
   \item{x}{
-The explanatory (discrete) variable used to define the hypothesised rate categories.}
+The explanatory (discrete) variable used to define the hypothesised rate categories. Can be specified 
+as a column number or column name.}
   \item{data}{
 A data frame containing (minimally) the x variable as a column with species names as rownames.}
 }
@@ -47,7 +48,7 @@ data(anolis.data)
 
 ## Convert data to class rateMatrix
 # Not run
-# anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+# anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x="geo_ecomorph", data=anolis.data)
 
 
 }

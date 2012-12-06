@@ -12,7 +12,7 @@ These are reliable (given the asympotic assumptions of the chi-square distributi
 groups are being compared but should be regarded only as a rough approximation for =>3 different 
 rate categories. If the rates are correlated the CIs may be underestimated.}
 \usage{
-RatePhylo.CI(rateData, MLrate = NULL, fixed, rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
+RatePhylo.CI(rateData, MLrate = NULL, fixed, rateMIN = 0.001, rateMAX = 50, common.mean = FALSE, lambda.est=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,6 +34,8 @@ Maximum value for the rate parameters}
 a logical specififying whether each rate category should have its own mean (\code{common.mean=FALSE})
 or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) for
 a discussion on the impact of assumptions about mean on rate estimates.}
+\item{lambda.est}{
+Logical. Estimate Pagel's lambda. }
 }
 
 \value{
@@ -61,10 +63,10 @@ data(anolis.tree)
 data(anolis.data)
 
 ## Convert data to class rateData with a rateMatrix object as input
-anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x="geo_ecomorph", data=anolis.data)
 
-anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
-rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
+anolis.rateData <- as.rateData(y="Female_SVL", x="geo_ecomorph", 
+rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data, log.y=TRUE)
 
 # A model with a different rate in each of the four groups. The 'fixed' command is used to determine 
 # whether a particular rate is to be constrained or not. Use '1' to fix a group and 'FALSE' to show 

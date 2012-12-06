@@ -40,25 +40,6 @@ Gavin Thomas, Rob Freckleton
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-
-\examples{
-# Data and phylogeny
-data(anolis.tree)
-data(anolis.data)
-
-# anolis.data is not matrix and contains missing data so put together matrix of # relevant traits (here female and male snout vent lengths) and remove species 
-# with missing data from the matrix and phylogeny
-anolisSVL <- data.matrix(anolis.data)[,c(5,6)]
-anolisSVL[,1] <- log(anolisSVL[,1])
-anolisSVL[,2] <- log(anolisSVL[,2])
-
-tree <- drop.tip(anolis.tree, names(attr(na.omit(anolisSVL), "na.action")))
-anolisSVL <- na.omit(anolisSVL)
-
-# Calculate Brownian variance (or covariance for multiple traits) and log likelihood
-phyloCovar(anolisSVL, phy=tree)
-likTraitPhylo(anolisSVL, phy=tree)
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }

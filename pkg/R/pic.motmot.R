@@ -57,7 +57,7 @@ pic.motmot <- function (x, phy)
         
    	idx <- which(ans[[3]] == (nb.tip+1) )
     root.v <- ans[[5]][idx]
-    V <- root.v[1]*root.v[2]/(sum(root.v))
+    V <- prod(root.v)/(sum(root.v))
     
     return(list(contr = contr, root.v = root.v, V = V, ans = ans))
 }

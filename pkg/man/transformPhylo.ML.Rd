@@ -9,7 +9,7 @@ Fits likelihood models for various models of continuous character evolution. Mod
 \usage{
 transformPhylo.ML(y, phy, model = NULL, meserr=NULL, modelCIs = TRUE, nodeIDs = NULL, 
     rateType = NULL, minCladeSize = 1, nSplits = 10, restrictNode = NULL, 
-    lowerBound = NULL, upperBound = NULL, tol=NULL)
+    lowerBound = NULL, upperBound = NULL, tol=NULL, n.cores=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,7 +46,8 @@ Minimum value for parameter estimates}
 Maximum value for parameter estimates}
   \item{tol}{
 Tolerance (minimum branch length) to exclude branches from trait MEDUSA search. Primarily intended to prevent inference of rate shifts at randomly resolved polytomies. }
-
+  \item{n.cores}{
+Integer. Set number of computing cores when running model="medusa" }
 }
 \details{
 This function finds the maximum likelihood parameter values for continuous character evolution. The function returns the maximum-likihood parameter estimates for the following models.

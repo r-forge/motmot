@@ -7,7 +7,7 @@ Phylogenetic tree transformations
 \description{
 Transforms the branch lengths of a phylo object according to a model of trait evolution (see details).}
 \usage{
-transformPhylo(phy, model = NULL, meserr=NULL, y=NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha=NULL, psi=NULL, nodeIDs = NULL, rateType=NULL, branchRates=NULL, cladeRates = NULL)
+transformPhylo(phy, model = NULL, meserr=NULL, y=NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha=NULL, psi=NULL, nodeIDs = NULL, rateType=NULL, branchRates=NULL, cladeRates = NULL, cladeMembersObj=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -38,6 +38,8 @@ If model="clade", a vector specifying if rate shift occurs in a clade ("clade") 
 Numeric vector specifying relative rates for individual branches.}
   \item{cladeRates}{
 Numeric vector specifying telative rates for clades.}
+  \item{cladeMembersObj}{
+Matrix of clade membership}
 }
 
 \details{

@@ -7,7 +7,7 @@ Log-likelhood for models of trait evoluion.
 \description{
 Fits likelihood models for various models of continuous character evolution.}
 \usage{
-transformPhylo.ll(y, phy, model = NULL, meserr=NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha = NULL, psi=NULL, nodeIDs = NULL, rateType = NULL, branchRates = NULL, cladeRates = NULL)
+transformPhylo.ll(y, phy, model = NULL, meserr=NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha = NULL, psi=NULL, nodeIDs = NULL, rateType = NULL, branchRates = NULL, cladeRates = NULL, cladeMembersObj=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,6 +39,8 @@ Integer - ancestral nodes of clades.}
 Numeric vector specifying relative rates for individual branches.}
   \item{cladeRates}{
 Numeric vector specifying telative rates for clades.}
+  \item{cladeMembersObj}{
+Matrix of clade membership}
 }
 \details{
 This function fits likelihood models (see below) for continuous character evolution where the parameter values are set a priori. The function returns the log-likihood and the Brownian variance (or variance covariance matrix).

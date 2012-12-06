@@ -44,10 +44,10 @@ data(anolis.tree)
 data(anolis.data)
 
 ## Convert data to class rateData with a rateMatrix object as input
-anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
+anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x="geo_ecomorph", data=anolis.data)
 
-anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
-rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
+anolis.rateData <- as.rateData(y="Female_SVL", x="geo_ecomorph", 
+rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data, log.y=TRUE)
 
 # Tranform the expected variance covariance matrix so that the rates in the first and last 
 # categories are equal (both 1) whereas the rate in the second category is twice as fast (2) and 

@@ -37,25 +37,7 @@ Gavin Thomas, Rob Freckleton, Emmanuel Paradis}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 
-\examples{
 
-# Data and phylogeny
-data(anolis.tree)
-data(anolis.data)
-
-# anolis.data is not matrix and contains missing data so put together matrix of # relevant traits (here female and male snout vent lengths) and remove species 
-# with missing data from the matrix and phylogeny
-anolisSVL <- data.matrix(anolis.data)[,5]
-anolisSVL <- as.matrix(log(anolisSVL))
-
-tree <- drop.tip(anolis.tree, names(attr(na.omit(anolisSVL), "na.action")))
-anolisSVL <- na.omit(anolisSVL)
-
-# contrasts
-anolis.contr <- pic.motmot(x=anolisSVL, phy=tree)
-
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }

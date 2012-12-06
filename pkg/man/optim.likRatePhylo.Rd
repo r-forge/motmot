@@ -6,7 +6,7 @@ Maximum likelihood rate estimation for traits and phylogenies
 \description{
 Function for the maximum likelihood estimation of rate parameters on a trait and phylogeny.}
 \usage{
-optim.likRatePhylo(rateData, rate = NULL, fixed = NULL, rateMIN = 0.001, rateMAX = 50, common.mean = FALSE)
+optim.likRatePhylo(rateData, rate = NULL, fixed = NULL, rateMIN = 0.001, rateMAX = 50, common.mean = FALSE, lambda.est=TRUE, meserr)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,7 +22,11 @@ Minimum value for the rate parameters}
 Maximum value for the rate parameters}
   \item{common.mean}{
 a logical specififying whether each rate category should have its own mean (\code{common.mean=FALSE}) or all categories should have the same mean (\code{common.mean=FALSE}). See Thomas et al. (2009) for a discussion on the impact of assumptions about mean on rate estimates. }
-}
+  \item{lambda.est}{
+Logical. Fit Pagel's lambda.}
+
+  \item{meserr}{
+Logical. Include measurement error. }}
 
 \value{
 \item{MLRate }{Maximum likelihood estimates of the rate parameters}
@@ -43,28 +47,7 @@ Gavin Thomas}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 
-\examples{
 
-data(anolis.tree)
-data(anolis.data)
-
-## Convert data to class rateData with a rateMatrix object as input
-anolis.rateMatrix <- as.rateMatrix(phy=anolis.tree, x=anolis.data$geo_ecomorph, data=anolis.data)
-
-anolis.rateData <- as.rateData(y=log10(anolis.data$Female_SVL), x=anolis.data$geo_ecomorph, 
-rateMatrix = anolis.rateMatrix, phy=NULL, data=anolis.data)
-
-# A model with a different rate in each of the four groups. The 'fixed' command is used to 
-# determine whether a particular rate is to be constrained or not. Use '1' to fix a group and 
-# 'FALSE' to show that the parameter is not fixed and should be estimated. The values should be 
-# entered in the same order as the ranking of the groups. That is, group 0 (small islands) takes 
-# position one in the fixed vector, group 1 (large island trunk crown and trunk ground) takes 
-# position 2 and so on. The default is to allow each group to take a different mean. 
-
-# Not run
-# optim.likRatePhylo(anolis.rateData, rate=NULL, fixed=c(1,FALSE,FALSE, FALSE), common.mean=FALSE)
-
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
