@@ -19,12 +19,11 @@ An object of class "phylo" (see ape package).
 
 }
 \details{
-This is a minor tweak to the pic function that extracts the expected variance at the root of the tree (required for likelihood calculations). Here it is only used as an internal function. }
+Extracts values for contrasts, expected variances using contrasts by calling \code{pic}. }
 \value{
   \item{contr }{A matrix with two columns containing raw contrasts in the first column and their expected variances in the second column.}
   \item{root.v }{Expected variances of branches either side of root}
   \item{V }{Expected variance at the root }
-  \item{ans }{Additional output from pic (mostly not used).}
 
 }
 \references{

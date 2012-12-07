@@ -34,3 +34,4 @@ phyloCovar <- function(x, phy, estimator="unbiased") {
 		return(brCov)
 		}
 		
+
