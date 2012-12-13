@@ -15,7 +15,7 @@ function(y, x, rateMatrix=NULL, phy=NULL, data, meserr.col=NULL, meserr.propn=NU
 		if (is.null(meserr.col)) { dat <- data.frame(x=data[,x], y=data[,y], row.names = rownames(data)) }
 					 
 		if (!is.null(meserr.col)) { dat <- data.frame(x=data[,x], y=data[,y], meserr=data[,meserr.col], row.names = rownames(data)) }
-		if (!is.null(meserr.propn)) { dat <- data.frame(x=data[,x], y=data[,y], meserr=rep(meserr.propn,dim(data)[1]), row.names = rownames(data)) }
+		if (!is.null(meserr.propn)) { dat <- data.frame(x=data[,x], y=data[,y], meserr=rep(meserr.propn, dim(data)[1]), row.names = rownames(data)) }
 					 
 			 
 	

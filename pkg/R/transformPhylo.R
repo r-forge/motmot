@@ -1,25 +1,26 @@
 transformPhylo <- function (phy, model = NULL, meserr = NULL, y = NULL, kappa = NULL, 
 lambda = NULL, delta = NULL, alpha = NULL, psi = NULL, nodeIDs = NULL, 
-rateType = NULL, branchRates = NULL, cladeRates = NULL, cladeMembersObj = NULL) 
+rateType = NULL, branchRates = NULL, cladeRates = NULL, cladeMembersObj = NULL, meserr=NULL, sigmaScale=1) 
 {
-    if (is.null(meserr) == FALSE) {
-        if (dim(y)[2] > 1) {
-            meserr <- NULL
-            (stop("Measurement error can only be included for univariate models. Set meserr to NULL."))
-        }
-    }
+
     n <- length(phy$tip.label)
-    
+	
+	if (is.null(meserr)) { meserr <- rep(0, Ntip(phy)) }
+	if (length(meserr)==1) { meserr <- (meserr * y)^2 }
+	if (length(meserr)>1) { meserr <- meserr^2 }
+
+		
+		
     switch(model, bm = {
 		   if (is.null(meserr) == FALSE) {
 		   height <- max(branching.times(phy))
 		   interns <- which(phy$edge[, 2] > n)
 		   externs <- which(phy$edge[, 2] <= n)
-		   phy$edge.length[externs] <- phy$edge.length[externs] + 
-		   (meserr^2)/(var(y)/height)[1]
+		   phy$edge.length[externs] <- phy$edge.length[externs] + (meserr^2)*sigmaScale
 		   } else {
 		   phy <- phy
 		   }
+		   
 		   }, kappa = {
 		   height <- max(branching.times(phy))
 		   if (is.null(meserr) == FALSE) {
@@ -29,12 +30,8 @@ rateType = NULL, branchRates = NULL, cladeRates = NULL, cladeMembersObj = NULL)
 		   }
 		   phy$edge.length <- phy$edge.length^kappa
 		   if (is.null(meserr) == FALSE) {
-		   phy$edge.length[externs] <- phy$edge.length[externs] + 
-		   (meserr^2)/(var(y)/height)[1]
+		   phy$edge.length[externs] <- phy$edge.length[externs] + (meserr^2)*sigmaScale
 		   }
-		   
-		   
-		   
 		   
 		   }, lambda = {
 		   if (is.null(meserr) == FALSE) {
@@ -65,6 +62,7 @@ rateType = NULL, branchRates = NULL, cladeRates = NULL, cladeMembersObj = NULL)
 		   phy$edge.length[externs] <- phy$edge.length[externs] + 
 		   (meserr^2)/(var(y)/height)[1]
 		   }
+		   
 		   }, delta = {
 		   height <- max(branching.times(phy))
 		   if (is.null(meserr) == FALSE) {
@@ -82,8 +80,7 @@ rateType = NULL, branchRates = NULL, cladeRates = NULL, cladeMembersObj = NULL)
 		   }
 		   phy <- res
 		   if (is.null(meserr) == FALSE) {
-		   phy$edge.length[externs] <- phy$edge.length[externs] + 
-		   (meserr^2)/(var(y)/height)[1]
+		   phy$edge.length[externs] <- phy$edge.length[externs] + (meserr^2)*sigmaScale
 		   }
 		   
 		   phy$edge.length <- phy$edge.length * (height/ max(branching.times(phy)))
@@ -98,9 +95,10 @@ rateType = NULL, branchRates = NULL, cladeRates = NULL, cladeMembersObj = NULL)
 		   branchRates <- branchRates + (1 - min(branchRates))
 		   phy$edge.length <- phy$edge.length * branchRates
 		   if (is.null(meserr) == FALSE) {
-		   phy$edge.length[externs] <- phy$edge.length[externs] + 
-		   (meserr^2)/(var(y)/height)[1]
+		   phy$edge.length[externs] <- phy$edge.length[externs] + (meserr^2)*sigmaScale
 		   }
+		   
+		   
 		   }, clade = {
 		   if (is.null(meserr) == FALSE) {
 		   height <- max(branching.times(phy))
