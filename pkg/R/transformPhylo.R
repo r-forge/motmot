@@ -1,4 +1,4 @@
-transformPhylo <- function (phy, model = NULL, meserr = NULL, y = NULL, kappa = NULL, 
+transformPhylo <- function (phy, model = NULL, y = NULL, kappa = NULL, 
 lambda = NULL, delta = NULL, alpha = NULL, psi = NULL, nodeIDs = NULL, 
 rateType = NULL, branchRates = NULL, cladeRates = NULL, cladeMembersObj = NULL, meserr=NULL, sigmaScale=1) 
 {

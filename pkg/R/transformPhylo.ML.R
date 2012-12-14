@@ -14,7 +14,9 @@ tol = NULL, n.cores=1)
 		   phy <- transformPhylo(phy = phy, model = "bm", y = y)
 		   out <- likTraitPhylo(y, phy)
 		   names(out) <- c("brownianVariance", "logLikelihood")
-		   }, kappa = {
+		   }, 
+		   
+		   kappa = {
 		   kappa <- 1
 		   if (is.null(lowerBound)) {
 		   lowerBound <- bounds["kappa", 1]
@@ -22,15 +24,18 @@ tol = NULL, n.cores=1)
 		   if (is.null(upperBound)) {
 		   upperBound <- bounds["kappa", 2]
 		   }
+		   
 		   var.funkappa <- function(kappa) {
-		   return(transformPhylo.ll(y, phy, kappa, model = "kappa")[[2]])
+		   return(transformPhylo.ll(y = y, phy = phy, kappa = kappa, model = "kappa")[[2]])
 		   }
+		   
 		   vo <- optim(kappa, var.funkappa, method = "L-BFGS-B", 
 					   lower = lowerBound, upper = upperBound, control = c(fnscale = -1))
+		   
 		   if (modelCIs == TRUE) {
 		   
 		   kappa.fun <- function(param) {
-		   ll <- transformPhylo.ll(y, phy, model = "kappa", kappa = param)$logLikelihood
+		   ll <- transformPhylo.ll(y = y, phy = phy, kappa = param, model = "kappa")$logLikelihood
 		   return(ll - vo$value + 1.92)
 		   }
 		   if (kappa.fun(lowerBound) < 0) {
@@ -84,6 +89,7 @@ tol = NULL, n.cores=1)
 		   
 		   vo <- optim(lambda, var.funlambda, method = "L-BFGS-B", 
 					   lower = lowerBound, upper = upperBound, control = c(fnscale = -1))
+		   
 		   if (modelCIs == TRUE) {
 		   lambda.fun <- function(param) {
 		   ll <- transformPhylo.ll(y, phy, model = "lambda", lambda = param)$logLikelihood

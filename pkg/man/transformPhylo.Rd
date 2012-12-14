@@ -7,7 +7,7 @@ Phylogenetic tree transformations
 \description{
 Transforms the branch lengths of a phylo object according to a model of trait evolution (see details).}
 \usage{
-transformPhylo(phy, model = NULL, meserr=NULL, y=NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha=NULL, psi=NULL, nodeIDs = NULL, rateType=NULL, branchRates=NULL, cladeRates = NULL, cladeMembersObj=NULL)
+transformPhylo(phy, model = NULL, y=NULL, kappa = NULL, lambda = NULL, delta = NULL, alpha=NULL, psi=NULL, nodeIDs = NULL, rateType=NULL, branchRates=NULL, cladeRates = NULL, cladeMembersObj=NULL, meserr=NULL, sigmaScale=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,8 +16,6 @@ An object of class "phylo" (see ape package).
 }
  \item{model}{
 The model of trait evolution (see details).}
-  \item{meserr}{
-A vector (or matrix) of measurement error for each tip. This is only applicable to univariate analyses.}
 \item{y}{
 A matrix of trait values.}
   \item{kappa}{
@@ -40,6 +38,10 @@ Numeric vector specifying relative rates for individual branches.}
 Numeric vector specifying telative rates for clades.}
   \item{cladeMembersObj}{
 Matrix of clade membership}
+  \item{meserr}{
+A vector (or matrix) of measurement error for each tip. This is only applicable to univariate analyses.}
+  \item{sigmaScale}{
+Scalar for measurement error.}
 }
 
 \details{

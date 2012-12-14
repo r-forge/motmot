@@ -7,7 +7,7 @@ Maximum likelhood for models of trait evoluion.}
 Fits likelihood models for various models of continuous character evolution. Model fitting is based on maximum-likelihood evaluation using phylogenetically independent contrasts. This is exactly equivalent to, but substantially faster than, GLS approaches.
 }
 \usage{
-transformPhylo.ML(y, phy, model = NULL, meserr=NULL, modelCIs = TRUE, nodeIDs = NULL, 
+transformPhylo.ML(y, phy, model = NULL, modelCIs = TRUE, nodeIDs = NULL, 
     rateType = NULL, minCladeSize = 1, nSplits = 10, restrictNode = NULL, 
     lowerBound = NULL, upperBound = NULL, tol=NULL, n.cores=1)
 }
@@ -22,8 +22,6 @@ An object of class "phylo" (see ape package).
   \item{model}{
 The model of trait evolution (see details).
 }
-  \item{meserr}{
-A vector (or matrix) of measurement error for each tip. This is only applicable to univariate analyses.}
   \item{modelCIs}{
 Logical - estimate confidence intervals for parameter estimates.
 }
